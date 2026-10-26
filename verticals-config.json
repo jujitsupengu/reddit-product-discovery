@@ -1,0 +1,1170 @@
+{
+  "schema_version": "2.0.0",
+  "generated_at": "2026-05-19",
+  "search_queries": [
+    "would pay for",
+    "is there a tool",
+    "happy to pay",
+    "worth paying for",
+    "no good solution",
+    "why isn't there",
+    "is there an app",
+    "I wish there was",
+    "someone should build",
+    "does anyone know of",
+    "I need an app that",
+    "looking for an app",
+    "wasting hours",
+    "manually every",
+    "budget is",
+    "as we scale",
+    "too small to hire"
+  ],
+  "manual_workflow_phrases": [
+    "copy and paste",
+    "one by one",
+    "by hand",
+    "keying in",
+    "typing out",
+    "into a spreadsheet",
+    "manual entry",
+    "takes hours",
+    "over and over",
+    "same thing every",
+    "there has to be a better way",
+    "drowning in admin",
+    "wasting so much time",
+    "how do you manage",
+    "is there an easier way",
+    "what do you use for",
+    "what's your workflow",
+    "chase up",
+    "virtual assistant",
+    "hire someone to",
+    "data entry",
+    "keep track of"
+  ],
+  "scoring": {
+    "weights": {
+      "pain_severity": 1.3,
+      "willingness_to_pay": 1.2,
+      "deliverability": 1.5,
+      "repeatability": 1.2,
+      "buyer_reachability": 1,
+      "urgency": 1
+    },
+    "denominator": 7.2,
+    "score_threshold": 5.5,
+    "high_confidence_opportunity_boost": 1,
+    "buyer_persona_match_boost": 1,
+    "trigger_event_mentioned_boost": 0.5,
+    "overall_score_cap": 10
+  },
+  "engagement_filter": {
+    "min_upvotes": 5,
+    "min_comments": 1,
+    "skip_videos": true,
+    "skip_ads": true
+  },
+  "apify": {
+    "actor": "trudax~reddit-scraper-lite",
+    "max_posts_per_search": 3,
+    "max_comments_per_post": 5,
+    "sort": "top",
+    "time_filter": "week"
+  },
+  "tiers": {
+    "1": {
+      "label": "Build agency around these (Tier 1)",
+      "priority_weight": 1.5,
+      "description": "PE/VC + Lettings + Accounting are the strategic focus for weeks 1-12. Highest discovery priority."
+    },
+    "2": {
+      "label": "Secondary / shared-infrastructure verticals (Tier 2)",
+      "priority_weight": 1,
+      "description": "Insurance, Logistics, Law, Wealth, Real Estate, Construction, SaaS, Consultancies, PE/VC Allocator, PE/VC DDQ, Private Markets DD, Manufacturing. Scan but lower weight."
+    },
+    "3": {
+      "label": "Killed verticals (Tier 3)",
+      "priority_weight": 0,
+      "description": "Hospitality, Healthcare/Dental, Creative/Marketing, E-commerce. Listed for completeness; enabled:false so no API spend."
+    }
+  },
+  "verticals": [
+    {
+      "id": "pe-vc-fund-ops",
+      "name": "PE/VC Fund Operations",
+      "tier": 1,
+      "enabled": false,
+      "confidence": "deep",
+      "buyer_personas": [
+        "COO",
+        "CFO",
+        "Head of Operations",
+        "CCO",
+        "Head of Compliance",
+        "Head of Portfolio Management"
+      ],
+      "firm_profile": "UK PE/VC/private credit/real assets fund, £50M-£2B AUM, 5-30 staff, Excel-dominant",
+      "subreddits": [
+        "privateequity",
+        "venturecapital",
+        "fintech"
+      ],
+      "pain_phrases": [
+        "drowning in spreadsheets",
+        "FCA regulatory change",
+        "covenant headroom",
+        "ILPA template",
+        "portfolio company data collection",
+        "300 hours per quarter",
+        "AIFMD II",
+        "fund administrator",
+        "covenant monitoring",
+        "LP reporting"
+      ],
+      "buyer_language_signals": [
+        "LP report",
+        "DDQ",
+        "NAV sign-off",
+        "waterfall",
+        "DPI",
+        "TVPI",
+        "FCA register",
+        "side letters"
+      ],
+      "trigger_events": [
+        "FCA 3-tier AIFM framework consultation 2026",
+        "AIFMD II April 2026",
+        "ILPA Reporting Template v2.0 mandatory Q1 2026",
+        "quarter-end Mar/Jun/Sep/Dec",
+        "private credit defaults rising",
+        "FCA enforcement action",
+        "new fund raise announcement"
+      ],
+      "existing_tools": [
+        "Allvue",
+        "eFront",
+        "Investran",
+        "Carta",
+        "Chronograph",
+        "Cobalt GP",
+        "Anduin",
+        "BankStride",
+        "TIMVERO",
+        "73 Strings",
+        "ComplyAdvantage"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Compliance Monitoring & Regulatory Alerting",
+          "build_rank": 1,
+          "opportunity_score": 4.11,
+          "price_point_gbp": "1000-3000/mo",
+          "description": "Automated FCA/SEC/ESMA/FinCEN scraping with Claude classification by firm type"
+        },
+        {
+          "name": "Covenant Monitoring Engine",
+          "build_rank": 15,
+          "opportunity_score": 3.92,
+          "price_point_gbp": "8000-15000/mo",
+          "description": "Deterministic DSCR/leverage/interest-coverage testing across 50-100 borrowers"
+        }
+      ],
+      "context_card": "UK PE/VC/private-credit COOs and CFOs at £50M-£2B AUM firms run quarterly reporting on Excel — 300+ hours chasing 15 portfolio company CFOs for inconsistent financials, then assembling LP reports against ILPA v2.0 templates (mandatory Q1 2026). Private credit subsegment is acutely pained: 5.7% default rate (up from 0% in 2022) and Excel-based covenant monitoring breaking at 50+ borrowers. Buyer wants white-glove implementation, not another SaaS login (BankStride/TIMVERO require internal capacity these 3-5 person ops teams don't have). Top opportunity is regulatory monitoring (£1-3K/mo, build-rank #1); premium upsell is covenant monitoring (£8-15K/mo)."
+    },
+    {
+      "id": "lettings-property-management",
+      "name": "Lettings / Property Management",
+      "tier": 1,
+      "enabled": true,
+      "confidence": "deep",
+      "buyer_personas": [
+        "Branch Manager",
+        "Compliance Lead",
+        "Operations Director",
+        "Property Manager",
+        "Owner/Principal"
+      ],
+      "firm_profile": "Independent UK lettings agency, 2-10 branches, 100-500 managed properties, Reapit/Alto/Street users (NOT Goodlord)",
+      "subreddits": [
+        "uklandlord"
+      ],
+      "pain_phrases": [
+        "sanctions checks on every tenant",
+        "RRA kicking in",
+        "drowning in compliance",
+        "Renters Rights Act",
+        "9 hours per week on maintenance",
+        "tenancy information sheet",
+        "chasing references on Goodlord",
+        "first-day arrears",
+        "Section 21 abolished",
+        "periodic tenancies"
+      ],
+      "buyer_language_signals": [
+        "we're scrambling",
+        "manually checking the OFSI list",
+        "stretched thin",
+        "drowning",
+        "don't know where to start"
+      ],
+      "trigger_events": [
+        "Renters Rights Act 1 May 2026 deadline",
+        "31 May 2026 tenancy info sheet deadline",
+        "HMRC AML fines publicised",
+        "gas safety expiry",
+        "EICR expiry",
+        "Awaab's Law 2026",
+        "PRS Database late 2026"
+      ],
+      "existing_tools": [
+        "Goodlord",
+        "Fixflo",
+        "Aidenn",
+        "Lanten",
+        "askporter",
+        "Latch",
+        "Vindey",
+        "SmartSearch",
+        "Thirdfort",
+        "PayProp",
+        "Arthur Online",
+        "Reapit",
+        "Street.co.uk",
+        "Converse360"
+      ],
+      "top_opportunities": [
+        {
+          "name": "AML/Sanctions + RRA Compliance Bundle",
+          "build_rank": 3,
+          "opportunity_score": 4.25,
+          "price_point_gbp": "150-250/branch/mo",
+          "description": "Auto-screens tenants/guarantors/landlords against OFSI list with fuzzy matching + RRA compliance modules (tenancy info sheet, rent review scheduler, pet 28-day tracker)"
+        },
+        {
+          "name": "Compliance Dashboard & Deadline Tracker",
+          "build_rank": 10,
+          "opportunity_score": 3.86,
+          "price_point_gbp": "+50-100/branch/mo",
+          "description": "Upsell to AML/RRA Tier 1 clients — gas safety/EICR/insurance renewal tracking"
+        }
+      ],
+      "context_card": "UK lettings agents (2-10 branch independents, Reapit/Alto/Street users — NOT Goodlord-heavy) face a 1 May 2026 Renters' Rights Act cliff edge and live AML/sanctions screening obligation that's already generated £835K in HMRC fines (170 penalties H1 2025). Buyer is Branch Manager/Compliance Lead/Owner drowning in manual OFSI list searches and unprepared for tenancy info sheet delivery to every existing tenant by 31 May. They want a turnkey compliance bundle, not another tool to configure — 53% have NO AI plans and 72% will pay £100-200/mo for unlimited checks + audit trail."
+    },
+    {
+      "id": "accounting-firms",
+      "name": "Accounting Firms",
+      "tier": 1,
+      "enabled": true,
+      "confidence": "deep",
+      "buyer_personas": [
+        "Practice Owner",
+        "Managing Partner",
+        "Office Manager",
+        "Sole Practitioner"
+      ],
+      "firm_profile": "UK accounting practice, 1-30 staff, Xero/Sage/IRIS users, MTD-affected client base (29,582 firms total)",
+      "subreddits": [
+        "UKAccounting",
+        "Accounting",
+        "Bookkeeping",
+        "smallbusinessuk",
+        "UKBusinessOwners"
+      ],
+      "pain_phrases": [
+        "begging clients for their bank statements",
+        "4x the HMRC submissions",
+        "MTD quarterly",
+        "client document chasing",
+        "self-assessment deadline",
+        "year-end nightmare",
+        "Xero won't talk to",
+        "client portal nobody uses",
+        "VAT returns",
+        "HMRC chasing me"
+      ],
+      "buyer_language_signals": [
+        "MTD",
+        "quarterly submission",
+        "SA100",
+        "self-assessment",
+        "year-end",
+        "VAT quarter",
+        "advisory work",
+        "compliance work"
+      ],
+      "trigger_events": [
+        "MTD ITSA April 2026 live",
+        "January 31 SA deadline",
+        "VAT quarter ends",
+        "Budget announcement",
+        "client signs up for SA after deadline",
+        "first MTD quarterly submission Aug 2026"
+      ],
+      "existing_tools": [
+        "Xero",
+        "Sage",
+        "IRIS",
+        "Karbon",
+        "Senta",
+        "TaxDome",
+        "Dext",
+        "GoProposal",
+        "Ignition",
+        "Firmcheck",
+        "Fathom",
+        "QuickBooks"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Client Document Chasing Automation",
+          "build_rank": 2,
+          "opportunity_score": 4.11,
+          "price_point_gbp": "150-300/mo",
+          "description": "AI-personalised chasing with multi-channel escalation (email + SMS + branded portal), pre-built for SA/MTD season"
+        },
+        {
+          "name": "MTD Quarterly Reporting Pipeline",
+          "build_rank": 4,
+          "opportunity_score": 4.11,
+          "price_point_gbp": "300-400/mo",
+          "description": "End-to-end MTD ITSA pipeline: data ingestion from Xero/bank feeds, quarterly submission prep, HMRC API filing"
+        }
+      ],
+      "context_card": "UK accounting practice owners (29,582 firms) are facing MTD ITSA April 2026 — quarterly HMRC submissions where there used to be annual. A 10-person practice with 200 SA clients now faces 4x submission volume (800/year) and can't hire fast enough. Burning-platform timing. Buyer is Practice Owner/Managing Partner using Xero/Sage/IRIS, sick of begging clients for bank statements each year. Document chasing (build-rank #2, £150-300/mo) is the easiest entry — MTD pipeline (£300-400/mo) is the larger upsell."
+    },
+    {
+      "id": "insurance-brokers",
+      "name": "Insurance Brokers (Commercial)",
+      "tier": 1,
+      "enabled": true,
+      "confidence": "deep",
+      "buyer_personas": [
+        "Principal",
+        "Director",
+        "Operations Manager",
+        "Commercial Lines Manager",
+        "Account Handler",
+        "Account Executive"
+      ],
+      "firm_profile": "Independent UK commercial brokerage, 5-50 staff, Acturis/SSP/Open GI users, £500K-£5M revenue",
+      "subreddits": [
+        "InsuranceProfessionals",
+        "smallbusinessuk",
+        "UKBusinessOwners"
+      ],
+      "pain_phrases": [
+        "renewal chasing is Groundhog Day",
+        "insurer portal fatigue",
+        "double keying",
+        "triple keying",
+        "logging into 5 different insurer extranets",
+        "quote comparison is spreadsheet hell",
+        "claims documentation black hole",
+        "missed renewal",
+        "handlers spending 8 hours chasing"
+      ],
+      "buyer_language_signals": [
+        "proposal form",
+        "renewal",
+        "E&O",
+        "Acturis",
+        "Consumer Duty",
+        "January renewal season",
+        "commission"
+      ],
+      "trigger_events": [
+        "Q4/Q1 renewal season",
+        "January biggest commercial month",
+        "FCA Consumer Duty audit",
+        "broker acquisition",
+        "missed renewal E&O claim",
+        "BIBA Conference"
+      ],
+      "existing_tools": [
+        "Acturis",
+        "SSP Pure Broking",
+        "Open GI Mobius",
+        "BrokerCentral",
+        "Recorder",
+        "FullCircl SmartBroker",
+        "Close Brothers",
+        "Premium Credit",
+        "Meshed"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Automated Renewal Chasing Engine",
+          "build_rank": 7,
+          "opportunity_score": 4.05,
+          "price_point_gbp": "400-800/mo",
+          "description": "90/60/30/14/7-day email+SMS sequences with branded web forms, CSV upload (no BMS integration)"
+        },
+        {
+          "name": "AI Quote Comparison Tool",
+          "build_rank": 18,
+          "opportunity_score": 3.62,
+          "price_point_gbp": "200-500/mo",
+          "description": "PDF extraction of insurer quotes into side-by-side comparison flagging exclusions/sub-limits"
+        }
+      ],
+      "context_card": "Principal/Director at independent UK commercial broker (5-50 staff, Acturis/SSP/Open GI users) watches account handlers burn 20-30% of their week on renewal chasing — same emails, same calls, every 30 days. Acturis API is partner-gated so any tool must work via CSV upload alongside the BMS. Buyer has £300-£800/mo discretionary spend, fears missed-renewal E&O claims, triggers hardest in September (selling into Q4/Q1 renewal crunch) and after FCA Consumer Duty audit pressure."
+    },
+    {
+      "id": "logistics-supply-chain",
+      "name": "Logistics / Supply Chain (UK Freight Forwarders + Customs Brokers)",
+      "tier": 1,
+      "enabled": true,
+      "confidence": "deep",
+      "buyer_personas": [
+        "Director",
+        "Managing Director",
+        "Operations Manager",
+        "Customs Manager",
+        "Customs Entry Clerk",
+        "Classification Specialist"
+      ],
+      "firm_profile": "Independent UK freight forwarder/customs broker, 5-50 staff, 50-500 entries/month, £500K-£10M revenue",
+      "subreddits": [
+        "logistics",
+        "supplychain",
+        "smallbusinessuk"
+      ],
+      "pain_phrases": [
+        "1 in 3 declarations contain errors",
+        "chasing clients for documents",
+        "HS code classification",
+        "wrong HS code = HMRC penalties",
+        "BTOM declarations",
+        "triple data entry",
+        "carrier rate spreadsheet",
+        "shipment tracking black hole",
+        "CargoWise price hike",
+        "missing commercial invoice"
+      ],
+      "buyer_language_signals": [
+        "commercial invoice",
+        "bill of lading",
+        "B/L",
+        "packing list",
+        "preferential rate under TCA",
+        "CDS",
+        "audit going back 3 years"
+      ],
+      "trigger_events": [
+        "new trade agreement CPTPP UK-India FTA",
+        "HMRC audit",
+        "backdated duty penalty",
+        "experienced customs clerk leaves",
+        "client volume spike",
+        "CargoWise price increase",
+        "BTOM compliance deadline",
+        "new sanctions list update"
+      ],
+      "existing_tools": [
+        "HMRC CDS API (open - leverageable)",
+        "Descartes",
+        "Sequoia",
+        "CargoWise WiseTech",
+        "GoFreight",
+        "Magaya",
+        "Linbis",
+        "iCustoms",
+        "ChamberCustoms"
+      ],
+      "top_opportunities": [
+        {
+          "name": "AI Document Extraction & Declaration Pre-Population",
+          "build_rank": 6,
+          "opportunity_score": 4.02,
+          "price_point_gbp": "400-800/mo",
+          "description": "Claude vision extracts commercial invoice/B/L/packing list fields into CDS-compatible structure"
+        },
+        {
+          "name": "Automated Client Document Collection & Intake",
+          "build_rank": 8,
+          "opportunity_score": 3.89,
+          "price_point_gbp": "300-500/mo",
+          "description": "Branded upload portal with AI validation + automated chasing — least-competed entry product"
+        }
+      ],
+      "context_card": "Director/Operations Manager at independent UK freight forwarder or customs broker (5-50 staff, 50-500 entries/month, Descartes/Sequoia/direct-CDS users) watches clerks burn 25%+ of time chasing clients for missing commercial invoices and bills of lading before they can even start a declaration. HMRC CDS API is OPEN (unlike Acturis in insurance) so build is unblocked, but iCustoms at £1,000/month already owns declaration AI — the gap is the pre-declaration workflow (document collection portal, validation, HS suggestion). Buyer is pragmatic, compliance-focused, regulation-forced to digitise, with £300-£800/mo discretionary spend."
+    },
+    {
+      "id": "law-firms",
+      "name": "Law Firms",
+      "tier": 2,
+      "enabled": true,
+      "confidence": "deep",
+      "buyer_personas": [
+        "Managing Partner",
+        "Practice Owner",
+        "Senior Solicitor",
+        "Sole Practitioner"
+      ],
+      "firm_profile": "UK law firm (high street / boutique), 2-30 fee earners, Clio/LEAP/Smokeball users",
+      "subreddits": [
+        "solicitors",
+        "UKBusinessOwners",
+        "smallbusinessuk"
+      ],
+      "pain_phrases": [
+        "that clause we used last time",
+        "what's happening with my case",
+        "I don't know where to start",
+        "AML/KYC orchestration",
+        "billable hour tracking",
+        "intake bottleneck",
+        "precedent hunting",
+        "time recording disaster"
+      ],
+      "buyer_language_signals": [
+        "practice management",
+        "matter",
+        "precedent",
+        "AML check",
+        "KYC",
+        "billable",
+        "WIP",
+        "client intake"
+      ],
+      "trigger_events": [
+        "SRA enforcement",
+        "AML thematic review",
+        "Legal Services Act review",
+        "partner retirement",
+        "new compliance officer hire"
+      ],
+      "existing_tools": [
+        "Clio",
+        "LEAP",
+        "Smokeball",
+        "Actionstep",
+        "PracticeEvolve",
+        "ProClaim",
+        "Eclipse Proclaim"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Lead Qualification Chatbot",
+          "build_rank": 9,
+          "opportunity_score": 3.55,
+          "price_point_gbp": "200-400/mo",
+          "description": "Door-opener product — AI-driven intake on firm website that qualifies + books"
+        },
+        {
+          "name": "Payment Chasing & AR Automation",
+          "build_rank": 5,
+          "opportunity_score": 3.62,
+          "price_point_gbp": "200-300/mo",
+          "description": "Same architecture as accounting document chasing — high reuse, zero access barrier"
+        }
+      ],
+      "context_card": "Managing Partner at UK high-street law firm (2-30 fee earners) using Clio/LEAP/Smokeball. The dossier explicitly notes 'Reddit/forum data — limited direct hits' for law, so most signal here will come from broader r/UKBusinessOwners or general advice subreddits. Top entry is lead-qualification chatbot (£200-400/mo) as door-opener, then payment chasing (£200-300/mo) using shared infrastructure from accounting document chasing. Privacy/confidentiality concerns mean intelligent time recording (Tier 2 upsell) requires trust before sell."
+    },
+    {
+      "id": "manufacturing-uk-smb",
+      "name": "Manufacturing (UK SMB)",
+      "tier": 2,
+      "enabled": true,
+      "confidence": "deep",
+      "buyer_personas": [
+        "Operations Director",
+        "Quality Manager",
+        "Operations Manager",
+        "MD/Owner"
+      ],
+      "firm_profile": "UK precision engineering / CNC / aerospace SME, 10-100 staff, MRPeasy/Katana users or Excel",
+      "subreddits": [
+        "manufacturing",
+        "smallbusinessuk"
+      ],
+      "pain_phrases": [
+        "20-30 enquiries a week",
+        "can only properly price 10-15",
+        "right cert for a job we did 6 months ago",
+        "two weeks before an audit",
+        "quality manager works evenings",
+        "supplier cert extraction",
+        "FAI",
+        "ISO 9001",
+        "AS9100"
+      ],
+      "buyer_language_signals": [
+        "FAI",
+        "CoC",
+        "PPAP",
+        "8D",
+        "NCR",
+        "ISO 9001",
+        "AS9100",
+        "ITAR",
+        "first article",
+        "non-conformance"
+      ],
+      "trigger_events": [
+        "ISO 9001 audit upcoming",
+        "AS9100 certification",
+        "Made Smarter grant",
+        "new customer onboarding",
+        "lost large quote"
+      ],
+      "existing_tools": [
+        "MRPeasy",
+        "Katana",
+        "QuickWorks",
+        "Paperless Parts",
+        "Fulcrum",
+        "Net-Inspect",
+        "InspectionXpert",
+        "Qualio",
+        "Ideagen",
+        "QT9",
+        "SafetyCulture",
+        "Precoro",
+        "Zahara"
+      ],
+      "top_opportunities": [
+        {
+          "name": "AI Quality Inspection Documentation",
+          "build_rank": 27,
+          "opportunity_score": 3.35,
+          "price_point_gbp": "300-600/mo",
+          "description": "Affordable QMS for SMEs — gap between SafetyCulture free and Qualio £10K/year"
+        }
+      ],
+      "context_card": "Quality Manager / Operations Director at UK precision-engineering SME (10-100 staff, MRPeasy/Excel users) where 'two weeks before an audit, our quality manager works evenings and weekends'. Dossier flags 'credibility gap severe' — founder needs domain partner before selling here. Tier 2 priority. Top opportunity is affordable QMS for SMEs in the £300-600/mo gap, but rank #27 means deprioritise unless the discovery tool surfaces unexpectedly strong evidence."
+    },
+    {
+      "id": "wealth-management-ifas",
+      "name": "Wealth Management / IFAs",
+      "tier": 2,
+      "enabled": false,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Director",
+        "IFA Principal",
+        "Compliance Manager",
+        "Sole Adviser"
+      ],
+      "firm_profile": "UK IFA firm, 1-20 advisers, Intelligent Office/Intelliflo users",
+      "subreddits": [],
+      "pain_phrases": [
+        "annual review",
+        "Consumer Duty",
+        "Fair Value Assessment",
+        "MiFID reporting",
+        "client review",
+        "suitability report",
+        "consumer duty board report"
+      ],
+      "buyer_language_signals": [
+        "Consumer Duty",
+        "Fair Value",
+        "suitability",
+        "MiFID",
+        "Intelliflo",
+        "annual review",
+        "platform charges"
+      ],
+      "trigger_events": [
+        "FCA Consumer Duty annual review",
+        "client annual review cycle",
+        "platform change announcement",
+        "Intelliflo IQ launch"
+      ],
+      "existing_tools": [
+        "Intelliflo",
+        "Intelligent Office",
+        "Iress XPlan",
+        "True Potential",
+        "Voyant",
+        "Defaqto",
+        "FinaMetrica"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Annual Review Report Automation",
+          "build_rank": 22,
+          "opportunity_score": 3.76,
+          "price_point_gbp": "300-600/mo",
+          "description": "Regulatory tailwind from Consumer Duty"
+        },
+        {
+          "name": "Fair Value Assessment Automation",
+          "build_rank": 23,
+          "opportunity_score": 3.6,
+          "price_point_gbp": "2000-4000 project",
+          "description": "Annual cadence limits recurring revenue"
+        }
+      ],
+      "context_card": "UK IFA principal (1-20 advisers, Intelligent Office/Intelliflo users) under FCA Consumer Duty pressure — annual reviews + Fair Value Assessments are paper-heavy and template-light. Intelliflo IQ is the incumbent threat. Annual-cadence work limits recurring revenue but project fees (£2-4K) work as augmentation."
+    },
+    {
+      "id": "real-estate-sales",
+      "name": "Real Estate (Sales)",
+      "tier": 2,
+      "enabled": false,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Branch Manager",
+        "Sales Director",
+        "Owner",
+        "Senior Negotiator"
+      ],
+      "firm_profile": "UK estate agency (sales), 1-15 branches, Reapit/Alto/Jupix users",
+      "subreddits": [],
+      "pain_phrases": [
+        "viewing feedback",
+        "vendor reporting",
+        "chasing buyers after viewings",
+        "weekly vendor calls",
+        "where's my offer"
+      ],
+      "buyer_language_signals": [
+        "vendor",
+        "viewing",
+        "instruction",
+        "fall-through",
+        "memorandum of sale",
+        "Rightmove",
+        "Zoopla"
+      ],
+      "trigger_events": [
+        "Rightmove price increases",
+        "Material Information Part C",
+        "Trading Standards enforcement",
+        "stamp duty announcement"
+      ],
+      "existing_tools": [
+        "Reapit",
+        "Alto",
+        "Jupix",
+        "Street.co.uk",
+        "Vebra Alto",
+        "Spectre",
+        "iamproperty"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Viewing Feedback & Vendor Reporting",
+          "build_rank": 14,
+          "opportunity_score": 3.92,
+          "price_point_gbp": "200/mo",
+          "description": "Automated post-viewing feedback collection + weekly vendor reports"
+        }
+      ],
+      "context_card": "UK estate agency owner/branch manager (1-15 branches, Reapit/Alto/Jupix users) drowning in weekly vendor calls that all say the same thing. Viewing feedback collection from buyers is manual + inconsistent — automatable for £200/mo per branch."
+    },
+    {
+      "id": "construction-trades",
+      "name": "Construction & Trades",
+      "tier": 2,
+      "enabled": true,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Director",
+        "Quantity Surveyor",
+        "Contracts Manager",
+        "Owner-Operator"
+      ],
+      "firm_profile": "UK construction firm or main contractor, 10-200 staff, COINS/Sage Construction users",
+      "subreddits": [
+        "ConstructionUK",
+        "UKtrades",
+        "smallbusinessuk"
+      ],
+      "pain_phrases": [
+        "subcontractor payment",
+        "retention release",
+        "payment application",
+        "CIS deductions",
+        "variations and claims",
+        "snagging list"
+      ],
+      "buyer_language_signals": [
+        "retentions",
+        "JCT",
+        "NEC",
+        "payment notice",
+        "valuation",
+        "scope creep",
+        "RFI"
+      ],
+      "trigger_events": [
+        "Retentions reform consultation",
+        "Building Safety Act phases",
+        "Construction Industry Scheme changes",
+        "main contractor insolvency"
+      ],
+      "existing_tools": [
+        "COINS",
+        "Sage Construction",
+        "Procore",
+        "Buildertrend",
+        "Causeway",
+        "Asite",
+        "RedSky"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Subcontractor Payment Application Tracking",
+          "build_rank": 20,
+          "opportunity_score": 3.6,
+          "price_point_gbp": "300-500/mo",
+          "description": "Retentions reform urgency creates window"
+        }
+      ],
+      "context_card": "Construction director / quantity surveyor (10-200 staff, COINS/Sage users) dealing with payment-application chaos and pending retentions reform. Tier 2 — needs domain partner per dossier."
+    },
+    {
+      "id": "saas-tech",
+      "name": "SaaS / Tech",
+      "tier": 2,
+      "enabled": true,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Founder",
+        "Head of Customer Success",
+        "Head of Growth",
+        "Product Manager"
+      ],
+      "firm_profile": "Bootstrapped or seed-funded SaaS, 5-50 staff, £200K-£5M ARR",
+      "subreddits": [
+        "SaaS",
+        "indiehackers"
+      ],
+      "pain_phrases": [
+        "churn early warning",
+        "onboarding orchestration",
+        "PLG metrics",
+        "customer health score",
+        "ICP qualification",
+        "trial to paid conversion"
+      ],
+      "buyer_language_signals": [
+        "ARR",
+        "MRR",
+        "churn",
+        "NRR",
+        "ICP",
+        "PMF",
+        "PLG",
+        "ChartMogul",
+        "SaaSGrid"
+      ],
+      "trigger_events": [
+        "funding round close",
+        "churn spike reported",
+        "post-Q earnings call",
+        "competitor launch"
+      ],
+      "existing_tools": [
+        "ChartMogul",
+        "SaaSGrid",
+        "Vitally",
+        "Gainsight",
+        "ChurnZero",
+        "Mixpanel",
+        "Amplitude"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Churn Early Warning System",
+          "build_rank": 16,
+          "opportunity_score": 3.74,
+          "price_point_gbp": "300-500/mo",
+          "description": "DIY risk high — sell to non-technical founders"
+        },
+        {
+          "name": "Customer Onboarding Orchestration",
+          "build_rank": 26,
+          "opportunity_score": 3.54,
+          "price_point_gbp": "300-500/mo",
+          "description": "Moderate defensibility"
+        }
+      ],
+      "context_card": "Bootstrapped/seed SaaS founder (5-50 staff, £200K-£5M ARR) — DIY risk highest of any vertical (technical buyers can build themselves). Best angle: sell to non-technical founders who want done-for-you. Saturated metrics-dashboard category — focus on churn early warning."
+    },
+    {
+      "id": "consultancies",
+      "name": "Consultancies",
+      "tier": 2,
+      "enabled": true,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Partner",
+        "Director",
+        "Managing Consultant",
+        "Independent Consultant"
+      ],
+      "firm_profile": "UK boutique consultancy, 5-50 staff, strategy/ops/digital focus",
+      "subreddits": [
+        "consulting",
+        "smallbusinessuk",
+        "UKBusinessOwners"
+      ],
+      "pain_phrases": [
+        "interview transcript analysis",
+        "market research",
+        "competitive intelligence",
+        "client deliverable templates",
+        "research synthesis"
+      ],
+      "buyer_language_signals": [
+        "engagement",
+        "deliverable",
+        "client",
+        "scope",
+        "utilization",
+        "billable",
+        "BD"
+      ],
+      "trigger_events": [
+        "new engagement won",
+        "RFP cycle",
+        "fiscal year start"
+      ],
+      "existing_tools": [
+        "Notion",
+        "Coda",
+        "Otter.ai",
+        "Fathom",
+        "Crayon",
+        "Klue"
+      ],
+      "top_opportunities": [
+        {
+          "name": "Interview Transcript Analysis",
+          "build_rank": 11,
+          "opportunity_score": 3.67,
+          "price_point_gbp": "2000-5000 per project",
+          "description": "Strong but niche — project-based not recurring"
+        }
+      ],
+      "context_card": "UK boutique consultancy partner (5-50 staff) on project-based revenue. Interview transcript analysis is genuinely needed (research-heavy engagements) but per-project pricing limits recurring revenue."
+    },
+    {
+      "id": "pe-vc-allocator-dd",
+      "name": "PE/VC Allocator (LP-side Due Diligence)",
+      "tier": 2,
+      "enabled": false,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Head of Manager Selection",
+        "Investment Director",
+        "Senior Analyst"
+      ],
+      "firm_profile": "UK fund-of-funds / family office / pension allocator, £100M-£10B AUM",
+      "subreddits": [
+        "privateequity",
+        "venturecapital"
+      ],
+      "pain_phrases": [
+        "DDQ analysis",
+        "fund comparison",
+        "LP report extraction",
+        "portfolio monitoring",
+        "PPM review",
+        "fund selection"
+      ],
+      "buyer_language_signals": [
+        "DDQ",
+        "PPM",
+        "fund-of-funds",
+        "LP",
+        "GP",
+        "side letter",
+        "ILPA",
+        "ESG questionnaire"
+      ],
+      "trigger_events": [
+        "new fund coming to market",
+        "annual portfolio review",
+        "PPM v2.0 update",
+        "investment committee meeting"
+      ],
+      "existing_tools": [
+        "Diligence Equity",
+        "Floqast",
+        "Allvue Allocator",
+        "Burgiss",
+        "Cobalt LP",
+        "Cambridge Associates"
+      ],
+      "top_opportunities": [
+        {
+          "name": "DDQ Response Analysis + Fund Comparison",
+          "build_rank": 12,
+          "opportunity_score": 3.6,
+          "price_point_gbp": "1000-2000/mo",
+          "description": "Cold-start viable"
+        },
+        {
+          "name": "LP Report Extraction & Portfolio Monitoring",
+          "build_rank": 26,
+          "opportunity_score": 3.81,
+          "price_point_gbp": "500-1500/mo",
+          "description": "Requires trust before sell"
+        }
+      ],
+      "context_card": "UK fund-of-funds / family office allocator (£100M-£10B AUM) reviewing dozens of GP PPMs and DDQs annually. Cold-start viable for DDQ comparison (£1-2K/mo) using publicly-available DDQ templates."
+    },
+    {
+      "id": "pe-vc-ddq-response",
+      "name": "PE/VC DDQ Response (GP-side)",
+      "tier": 2,
+      "enabled": false,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Head of IR",
+        "CFO",
+        "COO",
+        "BD Director"
+      ],
+      "firm_profile": "UK PE/VC GP, £100M-£2B AUM, IR/BD function exists",
+      "subreddits": [
+        "privateequity",
+        "venturecapital"
+      ],
+      "pain_phrases": [
+        "DDQ response",
+        "investor question",
+        "ILPA DDQ template",
+        "ESG questionnaire",
+        "side letter analysis"
+      ],
+      "buyer_language_signals": [
+        "LP",
+        "DDQ",
+        "PPM",
+        "ILPA",
+        "BD",
+        "fundraise",
+        "first close"
+      ],
+      "trigger_events": [
+        "fundraise launch",
+        "first close announcement",
+        "annual investor meeting",
+        "ILPA template update"
+      ],
+      "existing_tools": [
+        "DealCloud",
+        "Salesforce",
+        "Anduin",
+        "Backstop",
+        "iLevel"
+      ],
+      "top_opportunities": [
+        {
+          "name": "DDQ First-Draft Generation",
+          "build_rank": 21,
+          "opportunity_score": 3.41,
+          "price_point_gbp": "3000-8000/mo",
+          "description": "Cold-start problem — best as upsell to compliance monitoring"
+        }
+      ],
+      "context_card": "UK PE/VC GP IR/BD team (£100M-£2B AUM) drowning in DDQ responses during fundraise. Cold-start problem — best deployed as upsell to existing compliance monitoring clients (Tier 1 PE/VC fund ops). Defer until V8 trust established."
+    },
+    {
+      "id": "private-markets-dd-infrastructure",
+      "name": "Private Markets DD Infrastructure",
+      "tier": 2,
+      "enabled": false,
+      "confidence": "medium",
+      "buyer_personas": [
+        "Head of Investment Ops",
+        "Head of Compliance",
+        "Tech Director"
+      ],
+      "firm_profile": "Private markets platform / consortium / fund admin, £500M-£50B AUA",
+      "subreddits": [
+        "privateequity",
+        "fintech"
+      ],
+      "pain_phrases": [
+        "data room infrastructure",
+        "VDR",
+        "investor portal",
+        "fund admin migration",
+        "ESG data aggregation"
+      ],
+      "buyer_language_signals": [
+        "VDR",
+        "ESG",
+        "BAU ops",
+        "scaling ops",
+        "consortium",
+        "platform"
+      ],
+      "trigger_events": [
+        "platform migration",
+        "M&A in fund admin space",
+        "ESG regulation deadlines"
+      ],
+      "existing_tools": [
+        "Datasite",
+        "Intralinks",
+        "Ansarada",
+        "Carta",
+        "Anduin"
+      ],
+      "top_opportunities": [
+        {
+          "name": "ESG Data Aggregation & Compliance",
+          "build_rank": null,
+          "opportunity_score": null,
+          "price_point_gbp": "tbd",
+          "description": "Surfaced from discovery — not yet ranked in build sequence"
+        }
+      ],
+      "context_card": "Private markets infrastructure provider — adjacent to PE/VC Fund Ops Tier 1 vertical. Scan but treat as listening post for emerging patterns rather than primary target."
+    },
+    {
+      "id": "hospitality-food-service",
+      "name": "Hospitality & Food Service",
+      "tier": 3,
+      "enabled": false,
+      "confidence": "killed",
+      "killed_reason": "Every opportunity below 3.0. Funded SaaS competitors at every price point (Jelly £129/mo, Deputy £3.50/user). Structural vertical failure.",
+      "subreddits": [],
+      "pain_phrases": [],
+      "context_card": "KILLED — do not scan. Listed for completeness."
+    },
+    {
+      "id": "healthcare-dental",
+      "name": "Healthcare / Dental",
+      "tier": 3,
+      "enabled": false,
+      "confidence": "killed",
+      "killed_reason": "GDPR Article 9 + API lockdown + zero domain credibility = fatal combination. Healthcare dental's 3.60 top score is misleading once structural barriers applied.",
+      "subreddits": [],
+      "pain_phrases": [],
+      "context_card": "KILLED — do not scan. Park unless founder gains healthcare credentials."
+    },
+    {
+      "id": "creative-marketing-agencies",
+      "name": "Creative / Marketing Agencies",
+      "tier": 3,
+      "enabled": false,
+      "confidence": "killed",
+      "killed_reason": "DIY risk highest of any vertical; 91% already use AI; selling automation to automators. Only viable opp is Scope Creep Detection (Tier 2).",
+      "subreddits": [],
+      "pain_phrases": [],
+      "context_card": "KILLED — do not scan. Scope creep detection only viable opp (Tier 2)."
+    },
+    {
+      "id": "ecommerce",
+      "name": "E-commerce",
+      "tier": 3,
+      "enabled": false,
+      "confidence": "killed",
+      "killed_reason": "Commoditised dashboards, thin margins, 10-20 clients needed for £3K/month. Saturated AI support agent category.",
+      "subreddits": [],
+      "pain_phrases": [],
+      "context_card": "KILLED — do not scan. Thin margins, saturated competitors."
+    }
+  ]
+}

@@ -1,0 +1,1641 @@
+{
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "name": "Reddit Product Idea Discovery v2 (Vertical-Targeted)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * 1"
+            },
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * 4"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -32,
+        -96
+      ],
+      "id": "schedule-trigger-v2",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        96
+      ],
+      "id": "manual-trigger-v2",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "min_upvotes",
+              "name": "minUpvotes",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "min_comments",
+              "name": "minComments",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "max_posts_per_search",
+              "name": "maxPostsPerSearch",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "top_k_phrases",
+              "name": "topKPhrasesPerVertical",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "top_k_manual_workflow",
+              "name": "topKManualWorkflow",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "score_threshold",
+              "name": "scoreThreshold",
+              "value": 5.5,
+              "type": "number"
+            },
+            {
+              "id": "sheet_id",
+              "name": "sheetId",
+              "value": "__SET_SHEET_ID__",
+              "type": "string"
+            },
+            {
+              "id": "claude_model",
+              "name": "claudeModel",
+              "value": "claude-sonnet-4-6",
+              "type": "string"
+            },
+            {
+              "id": "require_domain_hit",
+              "name": "requireDomainHit",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "min_body_length",
+              "name": "minBodyLength",
+              "value": 50,
+              "type": "number"
+            },
+            {
+              "id": "max_body_length",
+              "name": "maxBodyLength",
+              "value": 1500,
+              "type": "number"
+            },
+            {
+              "id": "batch_size",
+              "name": "batchSize",
+              "value": 100000,
+              "type": "number"
+            },
+            {
+              "id": "debug_mode",
+              "name": "debugMode",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "run_label",
+              "name": "runLabel",
+              "value": "p4s-smoke",
+              "type": "string"
+            },
+            {
+              "id": "max_claude_calls",
+              "name": "maxClaudeCalls",
+              "value": 20,
+              "type": "number"
+            },
+            {
+              "id": "enabled_vertical_ids",
+              "name": "enabledVerticalIds",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "domain_filter_mode",
+              "name": "domainFilterMode",
+              "value": "relaxed",
+              "type": "string"
+            },
+            {
+              "id": "allow_relaxed_claude",
+              "name": "allowRelaxedClaude",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "relaxed_claude_sample",
+              "name": "relaxedClaudeSample",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "min_strict_claude_candidates",
+              "name": "minStrictClaudeCandidates",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "broad_subreddits",
+              "name": "broadSubreddits",
+              "value": "UKPersonalFinance,LegalAdviceUK,FinancialCareers,HousingUK,Bogleheads,fintech,smallbusinessuk",
+              "type": "string"
+            },
+            {
+              "id": "broad_subreddit_min_hits",
+              "name": "broadSubredditMinHits",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "broad_subreddit_requires_title_hit",
+              "name": "broadSubredditRequiresTitleHit",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "broad_subreddit_allow_trigger_override",
+              "name": "broadSubredditAllowTriggerOverride",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "noise_phrases",
+              "name": "noisePhrases",
+              "value": "job offer,career advice,which role,first house,bank account closed,mortgage,portfolio for 0.8%,roof repair claim,intestate,holiday,personal finance,student loan,crypto card,reporting manager",
+              "type": "string"
+            },
+            {
+              "id": "buyer_signal_phrases",
+              "name": "buyerSignalPhrases",
+              "value": "my clients,our clients,our firm,my practice,our branch,tenants,landlords,portfolio companies,LP reporting,compliance deadline,HMRC,MTD,OFSI,Renters Rights Act,manual process,chasing documents,spreadsheet",
+              "type": "string"
+            },
+            {
+              "id": "mw_min_upvotes",
+              "name": "mwMinUpvotes",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "mw_min_comments",
+              "name": "mwMinComments",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "allow_relaxed_engagement",
+              "name": "allowRelaxedEngagement",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "collect_engagement",
+              "name": "collectEngagement",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "engagement_gate_enabled",
+              "name": "engagementGateEnabled",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "run_mode",
+              "name": "runMode",
+              "value": "backtest",
+              "type": "string"
+            },
+            {
+              "id": "backtest_sort",
+              "name": "backtestSort",
+              "value": "top",
+              "type": "string"
+            },
+            {
+              "id": "backtest_time_window",
+              "name": "backtestTimeWindow",
+              "value": "year",
+              "type": "string"
+            },
+            {
+              "id": "backtest_max_posts",
+              "name": "backtestMaxPosts",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "backtest_chunk_size",
+              "name": "backtestChunkSize",
+              "value": 40,
+              "type": "number"
+            },
+            {
+              "id": "backtest_max_claude_calls",
+              "name": "backtestMaxClaudeCalls",
+              "value": 200,
+              "type": "number"
+            },
+            {
+              "id": "weekly_sort",
+              "name": "weeklySort",
+              "value": "relevance",
+              "type": "string"
+            },
+            {
+              "id": "weekly_time_window",
+              "name": "weeklyTimeWindow",
+              "value": "week",
+              "type": "string"
+            },
+            {
+              "id": "weekly_max_posts",
+              "name": "weeklyMaxPosts",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "weekly_max_claude_calls",
+              "name": "weeklyMaxClaudeCalls",
+              "value": 50,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "configuration-v2",
+      "name": "Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Vertical taxonomy - mirrored from verticals-config.json in the same project folder.\n// Edit the standalone JSON file and regenerate this block when updating.\n\nconst CONFIG = {\n  \"scoring\": {\n    \"weights\": {\n      \"pain_severity\": 1.3,\n      \"willingness_to_pay\": 1.2,\n      \"deliverability\": 1.5,\n      \"repeatability\": 1.2,\n      \"buyer_reachability\": 1,\n      \"urgency\": 1\n    },\n    \"denominator\": 7.2,\n    \"high_confidence_opportunity_boost\": 1,\n    \"buyer_persona_match_boost\": 1,\n    \"trigger_event_mentioned_boost\": 0.5,\n    \"overall_score_cap\": 10\n  },\n  \"search_queries\": [\n    \"would pay for\",\n    \"is there a tool\",\n    \"happy to pay\",\n    \"worth paying for\",\n    \"no good solution\",\n    \"why isn't there\",\n    \"is there an app\",\n    \"I wish there was\",\n    \"someone should build\",\n    \"does anyone know of\",\n    \"I need an app that\",\n    \"looking for an app\",\n    \"wasting hours\",\n    \"manually every\",\n    \"budget is\",\n    \"as we scale\",\n    \"too small to hire\"\n  ],\n  \"manual_workflow_phrases\": [\n    \"copy and paste\",\n    \"one by one\",\n    \"by hand\",\n    \"keying in\",\n    \"typing out\",\n    \"into a spreadsheet\",\n    \"manual entry\",\n    \"takes hours\",\n    \"over and over\",\n    \"same thing every\",\n    \"there has to be a better way\",\n    \"drowning in admin\",\n    \"wasting so much time\",\n    \"how do you manage\",\n    \"is there an easier way\",\n    \"what do you use for\",\n    \"what's your workflow\",\n    \"chase up\",\n    \"virtual assistant\",\n    \"hire someone to\",\n    \"data entry\",\n    \"keep track of\"\n  ],\n  \"tier_weights\": {\n    \"1\": 1.5,\n    \"2\": 1,\n    \"3\": 0\n  },\n  \"verticals\": [\n    {\n      \"id\": \"pe-vc-fund-ops\",\n      \"name\": \"PE/VC Fund Operations\",\n      \"tier\": 1,\n      \"enabled\": false,\n      \"buyer_personas\": [\n        \"COO\",\n        \"CFO\",\n        \"Head of Operations\",\n        \"CCO\",\n        \"Head of Compliance\",\n        \"Head of Portfolio Management\"\n      ],\n      \"subreddits\": [\n        \"privateequity\",\n        \"venturecapital\",\n        \"fintech\"\n      ],\n      \"pain_phrases\": [\n        \"drowning in spreadsheets\",\n        \"FCA regulatory change\",\n        \"covenant headroom\",\n        \"ILPA template\",\n        \"portfolio company data collection\",\n        \"300 hours per quarter\",\n        \"AIFMD II\",\n        \"fund administrator\",\n        \"covenant monitoring\",\n        \"LP reporting\"\n      ],\n      \"trigger_events\": [\n        \"FCA 3-tier AIFM framework consultation 2026\",\n        \"AIFMD II April 2026\",\n        \"ILPA Reporting Template v2.0 mandatory Q1 2026\",\n        \"quarter-end Mar/Jun/Sep/Dec\",\n        \"private credit defaults rising\",\n        \"FCA enforcement action\",\n        \"new fund raise announcement\"\n      ],\n      \"existing_tools\": [\n        \"Allvue\",\n        \"eFront\",\n        \"Investran\",\n        \"Carta\",\n        \"Chronograph\",\n        \"Cobalt GP\",\n        \"Anduin\",\n        \"BankStride\",\n        \"TIMVERO\",\n        \"73 Strings\",\n        \"ComplyAdvantage\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Compliance Monitoring & Regulatory Alerting\",\n          \"build_rank\": 1,\n          \"score\": 4.11,\n          \"price\": \"1000-3000/mo\"\n        },\n        {\n          \"name\": \"Covenant Monitoring Engine\",\n          \"build_rank\": 15,\n          \"score\": 3.92,\n          \"price\": \"8000-15000/mo\"\n        }\n      ],\n      \"context_card\": \"UK PE/VC/private-credit COOs and CFOs at £50M-£2B AUM firms run quarterly reporting on Excel — 300+ hours chasing 15 portfolio company CFOs for inconsistent financials, then assembling LP reports against ILPA v2.0 templates (mandatory Q1 2026). Private credit subsegment is acutely pained: 5.7% default rate (up from 0% in 2022) and Excel-based covenant monitoring breaking at 50+ borrowers. Buyer wants white-glove implementation, not another SaaS login (BankStride/TIMVERO require internal capacity these 3-5 person ops teams don't have). Top opportunity is regulatory monitoring (£1-3K/mo, build-rank #1); premium upsell is covenant monitoring (£8-15K/mo).\"\n    },\n    {\n      \"id\": \"lettings-property-management\",\n      \"name\": \"Lettings / Property Management\",\n      \"tier\": 1,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Branch Manager\",\n        \"Compliance Lead\",\n        \"Operations Director\",\n        \"Property Manager\",\n        \"Owner/Principal\"\n      ],\n      \"subreddits\": [\n        \"uklandlord\"\n      ],\n      \"pain_phrases\": [\n        \"sanctions checks on every tenant\",\n        \"RRA kicking in\",\n        \"drowning in compliance\",\n        \"Renters Rights Act\",\n        \"9 hours per week on maintenance\",\n        \"tenancy information sheet\",\n        \"chasing references on Goodlord\",\n        \"first-day arrears\",\n        \"Section 21 abolished\",\n        \"periodic tenancies\"\n      ],\n      \"trigger_events\": [\n        \"Renters Rights Act 1 May 2026 deadline\",\n        \"31 May 2026 tenancy info sheet deadline\",\n        \"HMRC AML fines publicised\",\n        \"gas safety expiry\",\n        \"EICR expiry\",\n        \"Awaab's Law 2026\",\n        \"PRS Database late 2026\"\n      ],\n      \"existing_tools\": [\n        \"Goodlord\",\n        \"Fixflo\",\n        \"Aidenn\",\n        \"Lanten\",\n        \"askporter\",\n        \"Latch\",\n        \"Vindey\",\n        \"SmartSearch\",\n        \"Thirdfort\",\n        \"PayProp\",\n        \"Arthur Online\",\n        \"Reapit\",\n        \"Street.co.uk\",\n        \"Converse360\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"AML/Sanctions + RRA Compliance Bundle\",\n          \"build_rank\": 3,\n          \"score\": 4.25,\n          \"price\": \"150-250/branch/mo\"\n        },\n        {\n          \"name\": \"Compliance Dashboard & Deadline Tracker\",\n          \"build_rank\": 10,\n          \"score\": 3.86,\n          \"price\": \"+50-100/branch/mo\"\n        }\n      ],\n      \"context_card\": \"UK lettings agents (2-10 branch independents, Reapit/Alto/Street users — NOT Goodlord-heavy) face a 1 May 2026 Renters' Rights Act cliff edge and live AML/sanctions screening obligation that's already generated £835K in HMRC fines (170 penalties H1 2025). Buyer is Branch Manager/Compliance Lead/Owner drowning in manual OFSI list searches and unprepared for tenancy info sheet delivery to every existing tenant by 31 May. They want a turnkey compliance bundle, not another tool to configure — 53% have NO AI plans and 72% will pay £100-200/mo for unlimited checks + audit trail.\"\n    },\n    {\n      \"id\": \"accounting-firms\",\n      \"name\": \"Accounting Firms\",\n      \"tier\": 1,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Practice Owner\",\n        \"Managing Partner\",\n        \"Office Manager\",\n        \"Sole Practitioner\"\n      ],\n      \"subreddits\": [\n        \"UKAccounting\",\n        \"Accounting\",\n        \"Bookkeeping\",\n        \"smallbusinessuk\",\n        \"UKBusinessOwners\"\n      ],\n      \"pain_phrases\": [\n        \"begging clients for their bank statements\",\n        \"4x the HMRC submissions\",\n        \"MTD quarterly\",\n        \"client document chasing\",\n        \"self-assessment deadline\",\n        \"year-end nightmare\",\n        \"Xero won't talk to\",\n        \"client portal nobody uses\",\n        \"VAT returns\",\n        \"HMRC chasing me\"\n      ],\n      \"trigger_events\": [\n        \"MTD ITSA April 2026 live\",\n        \"January 31 SA deadline\",\n        \"VAT quarter ends\",\n        \"Budget announcement\",\n        \"client signs up for SA after deadline\",\n        \"first MTD quarterly submission Aug 2026\"\n      ],\n      \"existing_tools\": [\n        \"Xero\",\n        \"Sage\",\n        \"IRIS\",\n        \"Karbon\",\n        \"Senta\",\n        \"TaxDome\",\n        \"Dext\",\n        \"GoProposal\",\n        \"Ignition\",\n        \"Firmcheck\",\n        \"Fathom\",\n        \"QuickBooks\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Client Document Chasing Automation\",\n          \"build_rank\": 2,\n          \"score\": 4.11,\n          \"price\": \"150-300/mo\"\n        },\n        {\n          \"name\": \"MTD Quarterly Reporting Pipeline\",\n          \"build_rank\": 4,\n          \"score\": 4.11,\n          \"price\": \"300-400/mo\"\n        }\n      ],\n      \"context_card\": \"UK accounting practice owners (29,582 firms) are facing MTD ITSA April 2026 — quarterly HMRC submissions where there used to be annual. A 10-person practice with 200 SA clients now faces 4x submission volume (800/year) and can't hire fast enough. Burning-platform timing. Buyer is Practice Owner/Managing Partner using Xero/Sage/IRIS, sick of begging clients for bank statements each year. Document chasing (build-rank #2, £150-300/mo) is the easiest entry — MTD pipeline (£300-400/mo) is the larger upsell.\"\n    },\n    {\n      \"id\": \"insurance-brokers\",\n      \"name\": \"Insurance Brokers (Commercial)\",\n      \"tier\": 1,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Principal\",\n        \"Director\",\n        \"Operations Manager\",\n        \"Commercial Lines Manager\",\n        \"Account Handler\",\n        \"Account Executive\"\n      ],\n      \"subreddits\": [\n        \"InsuranceProfessionals\",\n        \"smallbusinessuk\",\n        \"UKBusinessOwners\"\n      ],\n      \"pain_phrases\": [\n        \"renewal chasing is Groundhog Day\",\n        \"insurer portal fatigue\",\n        \"double keying\",\n        \"triple keying\",\n        \"logging into 5 different insurer extranets\",\n        \"quote comparison is spreadsheet hell\",\n        \"claims documentation black hole\",\n        \"missed renewal\",\n        \"handlers spending 8 hours chasing\"\n      ],\n      \"trigger_events\": [\n        \"Q4/Q1 renewal season\",\n        \"January biggest commercial month\",\n        \"FCA Consumer Duty audit\",\n        \"broker acquisition\",\n        \"missed renewal E&O claim\",\n        \"BIBA Conference\"\n      ],\n      \"existing_tools\": [\n        \"Acturis\",\n        \"SSP Pure Broking\",\n        \"Open GI Mobius\",\n        \"BrokerCentral\",\n        \"Recorder\",\n        \"FullCircl SmartBroker\",\n        \"Close Brothers\",\n        \"Premium Credit\",\n        \"Meshed\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Automated Renewal Chasing Engine\",\n          \"build_rank\": 7,\n          \"score\": 4.05,\n          \"price\": \"400-800/mo\"\n        },\n        {\n          \"name\": \"AI Quote Comparison Tool\",\n          \"build_rank\": 18,\n          \"score\": 3.62,\n          \"price\": \"200-500/mo\"\n        }\n      ],\n      \"context_card\": \"Principal/Director at independent UK commercial broker (5-50 staff, Acturis/SSP/Open GI users) watches account handlers burn 20-30% of their week on renewal chasing — same emails, same calls, every 30 days. Acturis API is partner-gated so any tool must work via CSV upload alongside the BMS. Buyer has £300-£800/mo discretionary spend, fears missed-renewal E&O claims, triggers hardest in September (selling into Q4/Q1 renewal crunch) and after FCA Consumer Duty audit pressure.\"\n    },\n    {\n      \"id\": \"logistics-supply-chain\",\n      \"name\": \"Logistics / Supply Chain (UK Freight Forwarders + Customs Brokers)\",\n      \"tier\": 1,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Director\",\n        \"Managing Director\",\n        \"Operations Manager\",\n        \"Customs Manager\",\n        \"Customs Entry Clerk\",\n        \"Classification Specialist\"\n      ],\n      \"subreddits\": [\n        \"logistics\",\n        \"supplychain\",\n        \"smallbusinessuk\"\n      ],\n      \"pain_phrases\": [\n        \"1 in 3 declarations contain errors\",\n        \"chasing clients for documents\",\n        \"HS code classification\",\n        \"wrong HS code = HMRC penalties\",\n        \"BTOM declarations\",\n        \"triple data entry\",\n        \"carrier rate spreadsheet\",\n        \"shipment tracking black hole\",\n        \"CargoWise price hike\",\n        \"missing commercial invoice\"\n      ],\n      \"trigger_events\": [\n        \"new trade agreement CPTPP UK-India FTA\",\n        \"HMRC audit\",\n        \"backdated duty penalty\",\n        \"experienced customs clerk leaves\",\n        \"client volume spike\",\n        \"CargoWise price increase\",\n        \"BTOM compliance deadline\",\n        \"new sanctions list update\"\n      ],\n      \"existing_tools\": [\n        \"HMRC CDS API (open - leverageable)\",\n        \"Descartes\",\n        \"Sequoia\",\n        \"CargoWise WiseTech\",\n        \"GoFreight\",\n        \"Magaya\",\n        \"Linbis\",\n        \"iCustoms\",\n        \"ChamberCustoms\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"AI Document Extraction & Declaration Pre-Population\",\n          \"build_rank\": 6,\n          \"score\": 4.02,\n          \"price\": \"400-800/mo\"\n        },\n        {\n          \"name\": \"Automated Client Document Collection & Intake\",\n          \"build_rank\": 8,\n          \"score\": 3.89,\n          \"price\": \"300-500/mo\"\n        }\n      ],\n      \"context_card\": \"Director/Operations Manager at independent UK freight forwarder or customs broker (5-50 staff, 50-500 entries/month, Descartes/Sequoia/direct-CDS users) watches clerks burn 25%+ of time chasing clients for missing commercial invoices and bills of lading before they can even start a declaration. HMRC CDS API is OPEN (unlike Acturis in insurance) so build is unblocked, but iCustoms at £1,000/month already owns declaration AI — the gap is the pre-declaration workflow (document collection portal, validation, HS suggestion). Buyer is pragmatic, compliance-focused, regulation-forced to digitise, with £300-£800/mo discretionary spend.\"\n    },\n    {\n      \"id\": \"law-firms\",\n      \"name\": \"Law Firms\",\n      \"tier\": 2,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Managing Partner\",\n        \"Practice Owner\",\n        \"Senior Solicitor\",\n        \"Sole Practitioner\"\n      ],\n      \"subreddits\": [\n        \"solicitors\",\n        \"UKBusinessOwners\",\n        \"smallbusinessuk\"\n      ],\n      \"pain_phrases\": [\n        \"that clause we used last time\",\n        \"what's happening with my case\",\n        \"I don't know where to start\",\n        \"AML/KYC orchestration\",\n        \"billable hour tracking\",\n        \"intake bottleneck\",\n        \"precedent hunting\",\n        \"time recording disaster\"\n      ],\n      \"trigger_events\": [\n        \"SRA enforcement\",\n        \"AML thematic review\",\n        \"Legal Services Act review\",\n        \"partner retirement\",\n        \"new compliance officer hire\"\n      ],\n      \"existing_tools\": [\n        \"Clio\",\n        \"LEAP\",\n        \"Smokeball\",\n        \"Actionstep\",\n        \"PracticeEvolve\",\n        \"ProClaim\",\n        \"Eclipse Proclaim\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Lead Qualification Chatbot\",\n          \"build_rank\": 9,\n          \"score\": 3.55,\n          \"price\": \"200-400/mo\"\n        },\n        {\n          \"name\": \"Payment Chasing & AR Automation\",\n          \"build_rank\": 5,\n          \"score\": 3.62,\n          \"price\": \"200-300/mo\"\n        }\n      ],\n      \"context_card\": \"Managing Partner at UK high-street law firm (2-30 fee earners) using Clio/LEAP/Smokeball. The dossier explicitly notes 'Reddit/forum data — limited direct hits' for law, so most signal here will come from broader r/UKBusinessOwners or general advice subreddits. Top entry is lead-qualification chatbot (£200-400/mo) as door-opener, then payment chasing (£200-300/mo) using shared infrastructure from accounting document chasing. Privacy/confidentiality concerns mean intelligent time recording (Tier 2 upsell) requires trust before sell.\"\n    },\n    {\n      \"id\": \"manufacturing-uk-smb\",\n      \"name\": \"Manufacturing (UK SMB)\",\n      \"tier\": 2,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Operations Director\",\n        \"Quality Manager\",\n        \"Operations Manager\",\n        \"MD/Owner\"\n      ],\n      \"subreddits\": [\n        \"manufacturing\",\n        \"smallbusinessuk\"\n      ],\n      \"pain_phrases\": [\n        \"20-30 enquiries a week\",\n        \"can only properly price 10-15\",\n        \"right cert for a job we did 6 months ago\",\n        \"two weeks before an audit\",\n        \"quality manager works evenings\",\n        \"supplier cert extraction\",\n        \"FAI\",\n        \"ISO 9001\",\n        \"AS9100\"\n      ],\n      \"trigger_events\": [\n        \"ISO 9001 audit upcoming\",\n        \"AS9100 certification\",\n        \"Made Smarter grant\",\n        \"new customer onboarding\",\n        \"lost large quote\"\n      ],\n      \"existing_tools\": [\n        \"MRPeasy\",\n        \"Katana\",\n        \"QuickWorks\",\n        \"Paperless Parts\",\n        \"Fulcrum\",\n        \"Net-Inspect\",\n        \"InspectionXpert\",\n        \"Qualio\",\n        \"Ideagen\",\n        \"QT9\",\n        \"SafetyCulture\",\n        \"Precoro\",\n        \"Zahara\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"AI Quality Inspection Documentation\",\n          \"build_rank\": 27,\n          \"score\": 3.35,\n          \"price\": \"300-600/mo\"\n        }\n      ],\n      \"context_card\": \"Quality Manager / Operations Director at UK precision-engineering SME (10-100 staff, MRPeasy/Excel users) where 'two weeks before an audit, our quality manager works evenings and weekends'. Dossier flags 'credibility gap severe' — founder needs domain partner before selling here. Tier 2 priority. Top opportunity is affordable QMS for SMEs in the £300-600/mo gap, but rank #27 means deprioritise unless the discovery tool surfaces unexpectedly strong evidence.\"\n    },\n    {\n      \"id\": \"wealth-management-ifas\",\n      \"name\": \"Wealth Management / IFAs\",\n      \"tier\": 2,\n      \"enabled\": false,\n      \"buyer_personas\": [\n        \"Director\",\n        \"IFA Principal\",\n        \"Compliance Manager\",\n        \"Sole Adviser\"\n      ],\n      \"subreddits\": [],\n      \"pain_phrases\": [\n        \"annual review\",\n        \"Consumer Duty\",\n        \"Fair Value Assessment\",\n        \"MiFID reporting\",\n        \"client review\",\n        \"suitability report\",\n        \"consumer duty board report\"\n      ],\n      \"trigger_events\": [\n        \"FCA Consumer Duty annual review\",\n        \"client annual review cycle\",\n        \"platform change announcement\",\n        \"Intelliflo IQ launch\"\n      ],\n      \"existing_tools\": [\n        \"Intelliflo\",\n        \"Intelligent Office\",\n        \"Iress XPlan\",\n        \"True Potential\",\n        \"Voyant\",\n        \"Defaqto\",\n        \"FinaMetrica\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Annual Review Report Automation\",\n          \"build_rank\": 22,\n          \"score\": 3.76,\n          \"price\": \"300-600/mo\"\n        },\n        {\n          \"name\": \"Fair Value Assessment Automation\",\n          \"build_rank\": 23,\n          \"score\": 3.6,\n          \"price\": \"2000-4000 project\"\n        }\n      ],\n      \"context_card\": \"UK IFA principal (1-20 advisers, Intelligent Office/Intelliflo users) under FCA Consumer Duty pressure — annual reviews + Fair Value Assessments are paper-heavy and template-light. Intelliflo IQ is the incumbent threat. Annual-cadence work limits recurring revenue but project fees (£2-4K) work as augmentation.\"\n    },\n    {\n      \"id\": \"real-estate-sales\",\n      \"name\": \"Real Estate (Sales)\",\n      \"tier\": 2,\n      \"enabled\": false,\n      \"buyer_personas\": [\n        \"Branch Manager\",\n        \"Sales Director\",\n        \"Owner\",\n        \"Senior Negotiator\"\n      ],\n      \"subreddits\": [],\n      \"pain_phrases\": [\n        \"viewing feedback\",\n        \"vendor reporting\",\n        \"chasing buyers after viewings\",\n        \"weekly vendor calls\",\n        \"where's my offer\"\n      ],\n      \"trigger_events\": [\n        \"Rightmove price increases\",\n        \"Material Information Part C\",\n        \"Trading Standards enforcement\",\n        \"stamp duty announcement\"\n      ],\n      \"existing_tools\": [\n        \"Reapit\",\n        \"Alto\",\n        \"Jupix\",\n        \"Street.co.uk\",\n        \"Vebra Alto\",\n        \"Spectre\",\n        \"iamproperty\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Viewing Feedback & Vendor Reporting\",\n          \"build_rank\": 14,\n          \"score\": 3.92,\n          \"price\": \"200/mo\"\n        }\n      ],\n      \"context_card\": \"UK estate agency owner/branch manager (1-15 branches, Reapit/Alto/Jupix users) drowning in weekly vendor calls that all say the same thing. Viewing feedback collection from buyers is manual + inconsistent — automatable for £200/mo per branch.\"\n    },\n    {\n      \"id\": \"construction-trades\",\n      \"name\": \"Construction & Trades\",\n      \"tier\": 2,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Director\",\n        \"Quantity Surveyor\",\n        \"Contracts Manager\",\n        \"Owner-Operator\"\n      ],\n      \"subreddits\": [\n        \"ConstructionUK\",\n        \"UKtrades\",\n        \"smallbusinessuk\"\n      ],\n      \"pain_phrases\": [\n        \"subcontractor payment\",\n        \"retention release\",\n        \"payment application\",\n        \"CIS deductions\",\n        \"variations and claims\",\n        \"snagging list\"\n      ],\n      \"trigger_events\": [\n        \"Retentions reform consultation\",\n        \"Building Safety Act phases\",\n        \"Construction Industry Scheme changes\",\n        \"main contractor insolvency\"\n      ],\n      \"existing_tools\": [\n        \"COINS\",\n        \"Sage Construction\",\n        \"Procore\",\n        \"Buildertrend\",\n        \"Causeway\",\n        \"Asite\",\n        \"RedSky\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Subcontractor Payment Application Tracking\",\n          \"build_rank\": 20,\n          \"score\": 3.6,\n          \"price\": \"300-500/mo\"\n        }\n      ],\n      \"context_card\": \"Construction director / quantity surveyor (10-200 staff, COINS/Sage users) dealing with payment-application chaos and pending retentions reform. Tier 2 — needs domain partner per dossier.\"\n    },\n    {\n      \"id\": \"saas-tech\",\n      \"name\": \"SaaS / Tech\",\n      \"tier\": 2,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Founder\",\n        \"Head of Customer Success\",\n        \"Head of Growth\",\n        \"Product Manager\"\n      ],\n      \"subreddits\": [\n        \"SaaS\",\n        \"indiehackers\"\n      ],\n      \"pain_phrases\": [\n        \"churn early warning\",\n        \"onboarding orchestration\",\n        \"PLG metrics\",\n        \"customer health score\",\n        \"ICP qualification\",\n        \"trial to paid conversion\"\n      ],\n      \"trigger_events\": [\n        \"funding round close\",\n        \"churn spike reported\",\n        \"post-Q earnings call\",\n        \"competitor launch\"\n      ],\n      \"existing_tools\": [\n        \"ChartMogul\",\n        \"SaaSGrid\",\n        \"Vitally\",\n        \"Gainsight\",\n        \"ChurnZero\",\n        \"Mixpanel\",\n        \"Amplitude\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Churn Early Warning System\",\n          \"build_rank\": 16,\n          \"score\": 3.74,\n          \"price\": \"300-500/mo\"\n        },\n        {\n          \"name\": \"Customer Onboarding Orchestration\",\n          \"build_rank\": 26,\n          \"score\": 3.54,\n          \"price\": \"300-500/mo\"\n        }\n      ],\n      \"context_card\": \"Bootstrapped/seed SaaS founder (5-50 staff, £200K-£5M ARR) — DIY risk highest of any vertical (technical buyers can build themselves). Best angle: sell to non-technical founders who want done-for-you. Saturated metrics-dashboard category — focus on churn early warning.\"\n    },\n    {\n      \"id\": \"consultancies\",\n      \"name\": \"Consultancies\",\n      \"tier\": 2,\n      \"enabled\": true,\n      \"buyer_personas\": [\n        \"Partner\",\n        \"Director\",\n        \"Managing Consultant\",\n        \"Independent Consultant\"\n      ],\n      \"subreddits\": [\n        \"consulting\",\n        \"smallbusinessuk\",\n        \"UKBusinessOwners\"\n      ],\n      \"pain_phrases\": [\n        \"interview transcript analysis\",\n        \"market research\",\n        \"competitive intelligence\",\n        \"client deliverable templates\",\n        \"research synthesis\"\n      ],\n      \"trigger_events\": [\n        \"new engagement won\",\n        \"RFP cycle\",\n        \"fiscal year start\"\n      ],\n      \"existing_tools\": [\n        \"Notion\",\n        \"Coda\",\n        \"Otter.ai\",\n        \"Fathom\",\n        \"Crayon\",\n        \"Klue\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"Interview Transcript Analysis\",\n          \"build_rank\": 11,\n          \"score\": 3.67,\n          \"price\": \"2000-5000 per project\"\n        }\n      ],\n      \"context_card\": \"UK boutique consultancy partner (5-50 staff) on project-based revenue. Interview transcript analysis is genuinely needed (research-heavy engagements) but per-project pricing limits recurring revenue.\"\n    },\n    {\n      \"id\": \"pe-vc-allocator-dd\",\n      \"name\": \"PE/VC Allocator (LP-side Due Diligence)\",\n      \"tier\": 2,\n      \"enabled\": false,\n      \"buyer_personas\": [\n        \"Head of Manager Selection\",\n        \"Investment Director\",\n        \"Senior Analyst\"\n      ],\n      \"subreddits\": [\n        \"privateequity\",\n        \"venturecapital\"\n      ],\n      \"pain_phrases\": [\n        \"DDQ analysis\",\n        \"fund comparison\",\n        \"LP report extraction\",\n        \"portfolio monitoring\",\n        \"PPM review\",\n        \"fund selection\"\n      ],\n      \"trigger_events\": [\n        \"new fund coming to market\",\n        \"annual portfolio review\",\n        \"PPM v2.0 update\",\n        \"investment committee meeting\"\n      ],\n      \"existing_tools\": [\n        \"Diligence Equity\",\n        \"Floqast\",\n        \"Allvue Allocator\",\n        \"Burgiss\",\n        \"Cobalt LP\",\n        \"Cambridge Associates\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"DDQ Response Analysis + Fund Comparison\",\n          \"build_rank\": 12,\n          \"score\": 3.6,\n          \"price\": \"1000-2000/mo\"\n        },\n        {\n          \"name\": \"LP Report Extraction & Portfolio Monitoring\",\n          \"build_rank\": 26,\n          \"score\": 3.81,\n          \"price\": \"500-1500/mo\"\n        }\n      ],\n      \"context_card\": \"UK fund-of-funds / family office allocator (£100M-£10B AUM) reviewing dozens of GP PPMs and DDQs annually. Cold-start viable for DDQ comparison (£1-2K/mo) using publicly-available DDQ templates.\"\n    },\n    {\n      \"id\": \"pe-vc-ddq-response\",\n      \"name\": \"PE/VC DDQ Response (GP-side)\",\n      \"tier\": 2,\n      \"enabled\": false,\n      \"buyer_personas\": [\n        \"Head of IR\",\n        \"CFO\",\n        \"COO\",\n        \"BD Director\"\n      ],\n      \"subreddits\": [\n        \"privateequity\",\n        \"venturecapital\"\n      ],\n      \"pain_phrases\": [\n        \"DDQ response\",\n        \"investor question\",\n        \"ILPA DDQ template\",\n        \"ESG questionnaire\",\n        \"side letter analysis\"\n      ],\n      \"trigger_events\": [\n        \"fundraise launch\",\n        \"first close announcement\",\n        \"annual investor meeting\",\n        \"ILPA template update\"\n      ],\n      \"existing_tools\": [\n        \"DealCloud\",\n        \"Salesforce\",\n        \"Anduin\",\n        \"Backstop\",\n        \"iLevel\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"DDQ First-Draft Generation\",\n          \"build_rank\": 21,\n          \"score\": 3.41,\n          \"price\": \"3000-8000/mo\"\n        }\n      ],\n      \"context_card\": \"UK PE/VC GP IR/BD team (£100M-£2B AUM) drowning in DDQ responses during fundraise. Cold-start problem — best deployed as upsell to existing compliance monitoring clients (Tier 1 PE/VC fund ops). Defer until V8 trust established.\"\n    },\n    {\n      \"id\": \"private-markets-dd-infrastructure\",\n      \"name\": \"Private Markets DD Infrastructure\",\n      \"tier\": 2,\n      \"enabled\": false,\n      \"buyer_personas\": [\n        \"Head of Investment Ops\",\n        \"Head of Compliance\",\n        \"Tech Director\"\n      ],\n      \"subreddits\": [\n        \"privateequity\",\n        \"fintech\"\n      ],\n      \"pain_phrases\": [\n        \"data room infrastructure\",\n        \"VDR\",\n        \"investor portal\",\n        \"fund admin migration\",\n        \"ESG data aggregation\"\n      ],\n      \"trigger_events\": [\n        \"platform migration\",\n        \"M&A in fund admin space\",\n        \"ESG regulation deadlines\"\n      ],\n      \"existing_tools\": [\n        \"Datasite\",\n        \"Intralinks\",\n        \"Ansarada\",\n        \"Carta\",\n        \"Anduin\"\n      ],\n      \"top_opportunities\": [\n        {\n          \"name\": \"ESG Data Aggregation & Compliance\",\n          \"build_rank\": null,\n          \"score\": null,\n          \"price\": \"tbd\"\n        }\n      ],\n      \"context_card\": \"Private markets infrastructure provider — adjacent to PE/VC Fund Ops Tier 1 vertical. Scan but treat as listening post for emerging patterns rather than primary target.\"\n    },\n    {\n      \"id\": \"hospitality-food-service\",\n      \"name\": \"Hospitality & Food Service\",\n      \"tier\": 3,\n      \"enabled\": false,\n      \"subreddits\": [],\n      \"pain_phrases\": [],\n      \"top_opportunities\": [],\n      \"context_card\": \"KILLED — do not scan. Listed for completeness.\"\n    },\n    {\n      \"id\": \"healthcare-dental\",\n      \"name\": \"Healthcare / Dental\",\n      \"tier\": 3,\n      \"enabled\": false,\n      \"subreddits\": [],\n      \"pain_phrases\": [],\n      \"top_opportunities\": [],\n      \"context_card\": \"KILLED — do not scan. Park unless founder gains healthcare credentials.\"\n    },\n    {\n      \"id\": \"creative-marketing-agencies\",\n      \"name\": \"Creative / Marketing Agencies\",\n      \"tier\": 3,\n      \"enabled\": false,\n      \"subreddits\": [],\n      \"pain_phrases\": [],\n      \"top_opportunities\": [],\n      \"context_card\": \"KILLED — do not scan. Scope creep detection only viable opp (Tier 2).\"\n    },\n    {\n      \"id\": \"ecommerce\",\n      \"name\": \"E-commerce\",\n      \"tier\": 3,\n      \"enabled\": false,\n      \"subreddits\": [],\n      \"pain_phrases\": [],\n      \"top_opportunities\": [],\n      \"context_card\": \"KILLED — do not scan. Thin margins, saturated competitors.\"\n    }\n  ]\n};\n\nreturn [{ json: CONFIG }];\n"
+      },
+      "id": "load-vertical-taxonomy",
+      "name": "Load Vertical Taxonomy",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build the Apify search matrix from the vertical taxonomy — MODE-AWARE + CHUNKED.\n// Mode (backtest|weekly) sets sort / time-window / depth and whether to chunk the\n// startUrls into N Apify runs. Backtest chunks to beat Apify's 3600s timeout (leads\n// land per chunk); weekly is a single chunk. Each search URL is loose (unquoted) — the\n// clarity scorer enforces precision downstream.\n// runMode resolution: Configuration.runMode override ('backtest'|'weekly'); else 'auto'\n// derives from $execution.mode (manual trigger -> backtest, schedule -> weekly). The\n// $execution guard keeps unit tests (no execution context) on the weekly default.\n\nconst taxonomy = $input.first().json;\nconst config = $('Configuration').first().json;\n\n// --- resolve mode ---\nconst runModeRaw = String(config.runMode || 'auto').toLowerCase();\nlet mode;\nif (runModeRaw === 'backtest' || runModeRaw === 'weekly') {\n  mode = runModeRaw;\n} else {\n  const execMode = (typeof $execution !== 'undefined' && $execution && $execution.mode) ? $execution.mode : null;\n  mode = execMode === 'manual' ? 'backtest' : 'weekly';\n}\nconst isBacktest = mode === 'backtest';\n\n// --- per-mode parameters ---\nconst sort = isBacktest ? String(config.backtestSort || 'top') : String(config.weeklySort || 'relevance');\nconst timeWindow = isBacktest ? String(config.backtestTimeWindow || 'year') : String(config.weeklyTimeWindow || 'week');\nconst maxPosts = Number(isBacktest ? (config.backtestMaxPosts || 25) : (config.weeklyMaxPosts || 10));\nconst resolvedMaxClaudeCalls = Number(\n  isBacktest\n    ? (config.backtestMaxClaudeCalls || config.maxClaudeCalls || 0)\n    : (config.weeklyMaxClaudeCalls || config.maxClaudeCalls || 0)\n);\nconst collectEngagement = config.collectEngagement === true;\n\nconst topK = config.topKPhrasesPerVertical || 4;\nconst searchQueries = (taxonomy.search_queries || []).slice(0, topK);\nconst topKMwRaw = config.topKManualWorkflow;\nconst topKMw = (topKMwRaw === undefined || topKMwRaw === null || topKMwRaw === '') ? topK : Number(topKMwRaw);\nconst quoteIfMulti = (phrase) => phrase; // loose match — precision handled by the clarity scorer downstream\nconst mwPhrases = topKMw > 0 ? (taxonomy.manual_workflow_phrases || []).slice(0, topKMw) : (taxonomy.manual_workflow_phrases || []);\n\nconst selectedRaw = config.enabledVerticalIds || '';\nconst selectedIds = Array.isArray(selectedRaw)\n  ? new Set(selectedRaw.map(String).map(s => s.trim()).filter(Boolean))\n  : new Set(String(selectedRaw).split(',').map(s => s.trim()).filter(Boolean));\nconst enabledVerticals = taxonomy.verticals.filter(v => v.enabled === true && (selectedIds.size === 0 || selectedIds.has(v.id)));\n\nconst startUrls = [];\nconst urlToVertical = {};\nconst subredditToVertical = {};\nconst startUrlToCategory = {};\n\nfor (const vertical of enabledVerticals) {\n  for (const subreddit of vertical.subreddits) {\n    const subLower = subreddit.toLowerCase();\n    if (!subredditToVertical[subLower]) {\n      subredditToVertical[subLower] = vertical.id;\n    }\n    const addUrl = (phrase, category) => {\n      const searchUrl = 'https://www.reddit.com/r/' + subreddit + '/search?q=' + encodeURIComponent(quoteIfMulti(phrase)) + '&sort=' + sort + '&t=' + timeWindow + '&restrict_sr=1';\n      if (!urlToVertical[searchUrl]) {\n        startUrls.push({ url: searchUrl });\n        urlToVertical[searchUrl] = vertical.id;\n        startUrlToCategory[searchUrl] = category;\n      }\n    };\n    for (const phrase of searchQueries) addUrl(phrase, 'buyer_intent');\n    for (const phrase of mwPhrases) addUrl(phrase, 'manual_workflow');\n  }\n}\n\n// --- chunk the startUrls (backtest: backtestChunkSize per chunk; weekly: single chunk) ---\nconst chunkSize = isBacktest\n  ? Math.max(1, Number(config.backtestChunkSize || 60))\n  : Math.max(1, startUrls.length);\nconst chunkTotal = Math.max(1, Math.ceil(startUrls.length / chunkSize));\n\nconst sharedMeta = {\n  mode,\n  taxonomy,\n  subredditToVertical,\n  startUrlToCategory,\n  resolvedMaxClaudeCalls,\n  searchMatrix: {\n    totalUrls: startUrls.length,\n    maxPostsTotal: startUrls.length * maxPosts,\n    verticalsCount: enabledVerticals.length,\n    chunkTotal,\n    chunkSize\n  }\n};\n\nconst chunks = [];\nfor (let i = 0; i < chunkTotal; i += 1) {\n  const slice = startUrls.slice(i * chunkSize, (i + 1) * chunkSize);\n  chunks.push({\n    json: {\n      chunkIndex: i + 1,\n      chunkTotal,\n      ...sharedMeta,\n      apifyInput: {\n        startUrls: slice,\n        maxItems: slice.length * maxPosts,\n        maxPostCount: maxPosts,\n        maxComments: collectEngagement ? 1 : 0,\n        skipComments: collectEngagement ? false : true,\n        proxy: { useApifyProxy: true }\n      }\n    }\n  });\n}\n\nreturn chunks;\n"
+      },
+      "id": "build-search-matrix",
+      "name": "Build Search Matrix",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/trudax~reddit-scraper-lite/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.apifyInput) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "start-apify-scraper-v2",
+      "name": "Start Apify Scraper",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "position": [
+        864,
+        0
+      ],
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Query Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "id": "wait-15s-v2",
+      "name": "Wait 15s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $('Start Apify Scraper').item.json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {}
+      },
+      "id": "check-run-status-v2",
+      "name": "Check Run Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "position": [
+        1504,
+        0
+      ],
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Query Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn [items[items.length - 1]];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        0
+      ],
+      "id": "get-latest-status-v2",
+      "name": "Get Latest Status"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condition-running-v2",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "RUNNING",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "still-running-v2",
+      "name": "Still Running?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1952,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $('Start Apify Scraper').item.json.data.id }}/dataset/items?limit=1500&fields=id,title,body,url,communityName,upVotes,numberOfComments,createdAt,username,author,flair,dataType,isVideo,isAd",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {}
+      },
+      "id": "get-scraper-results-v2",
+      "name": "Get Scraper Results",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "position": [
+        2176,
+        128
+      ],
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Query Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Configuration').first().json.sheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "v3",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2400,
+        128
+      ],
+      "id": "load-processed-urls-v2",
+      "name": "Load Already-Processed URLs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Per-batch: assign vertical, run word-boundary keyword matching, and compute pre-Claude quality signals.\nconst config = $('Configuration').first().json;\nconst matrix = $('Build Search Matrix').first().json;\nconst taxonomy = matrix.taxonomy;\nconst subredditToVertical = matrix.subredditToVertical;\nconst startUrlToCategory = matrix.startUrlToCategory || {};\nconst requireDomainHit = config.requireDomainHit !== false;\nconst domainFilterMode = config.domainFilterMode || 'strict';\n// 'relaxed'/'relaxed_debug' bypass the pre-Claude keyword gate (precision is downstream at\n// Claude's clarity scorer — see Build Search Matrix). Only 'strict' requires verbatim taxonomy-phrase\n// hits pre-Claude. Decoupled from debugMode so LIVE can run relaxed without debug-summary writes.\nconst relaxedDomain = domainFilterMode === 'relaxed' || domainFilterMode === 'relaxed_debug';\nconst broadSubreddits = new Set(String(config.broadSubreddits || '')\n  .split(',').map(s => s.trim().toLowerCase()).filter(Boolean));\nconst broadMinHits = Number(config.broadSubredditMinHits || 2);\nconst broadRequiresTitleHit = config.broadSubredditRequiresTitleHit === true;\nconst broadAllowTriggerOverride = config.broadSubredditAllowTriggerOverride !== false;\nconst noisePhrases = String(config.noisePhrases || '')\n  .split(',').map(s => s.trim()).filter(Boolean);\nconst buyerSignalPhrases = String(config.buyerSignalPhrases || '')\n  .split(',').map(s => s.trim()).filter(Boolean);\n\nconst esc = (s) => s.replace(/[.*+?^\\${}()|[\\]\\\\]/g, '\\\\$&');\nconst compileList = (list, key, minLen, splitRe) => (list || [])\n  .map(raw => {\n    const needle = (raw || '').toLowerCase().split(splitRe).slice(0, 3).join(' ').trim();\n    if (needle.length < minLen) return null;\n    return { [key]: raw, re: new RegExp('\\\\b' + esc(needle) + '\\\\b', 'i') };\n  })\n  .filter(Boolean);\nconst compilePhrases = (list) => list\n  .map(raw => ({ phrase: raw, re: new RegExp('\\\\b' + esc(raw.toLowerCase()) + '\\\\b', 'i') }));\nconst matchPhrases = (compiled, text) => compiled.filter(c => c.re.test(text)).map(c => c.phrase);\nconst noiseMatchers = compilePhrases(noisePhrases);\nconst buyerSignalMatchers = compilePhrases(buyerSignalPhrases);\nconst toolGapMatchers = compilePhrases(taxonomy.search_queries || []);\nconst mwMatchers = compilePhrases(taxonomy.manual_workflow_phrases || []);\n\nconst verticalById = {};\nfor (const v of taxonomy.verticals) {\n  verticalById[v.id] = {\n    name: v.name, tier: v.tier, context_card: v.context_card,\n    top_opportunities: v.top_opportunities, pain_phrases: v.pain_phrases,\n    buyer_personas: v.buyer_personas, existing_tools: v.existing_tools,\n    trigger_events: v.trigger_events,\n    _triggers: compileList(v.trigger_events, 'phrase', 6, /[\\s/(,]/),\n    _tools:    compileList(v.existing_tools, 'tool',   3, /[\\s(]/),\n    _pains:    compileList(v.pain_phrases,   'phrase', 4, /\\s+/)\n  };\n}\n\nconst out = [];\nfor (const item of $input.all()) {\n  const post = item.json;\n  const subredditName = (post.communityName || '').replace(/^r\\//i, '').toLowerCase();\n  const verticalId = subredditToVertical[subredditName] || null;\n  if (!verticalId) continue;\n  const v = verticalById[verticalId];\n\n  const title = (post.title || '').toLowerCase();\n  const body  = (post.body  || '').toLowerCase();\n  const combined = (title + '\\n' + body).toLowerCase();\n  const isBroadSubreddit = broadSubreddits.has(subredditName);\n  const mwMatches = matchPhrases(mwMatchers, combined);\n  const toolGapMatches = matchPhrases(toolGapMatchers, combined);\n  const matched_query_phrases = [...mwMatches, ...toolGapMatches];\n  const query_category = mwMatches.length ? 'manual_workflow' : (toolGapMatches.length ? 'tool_gap' : 'unattributed');\n\n  const splitTitleBody = (compiled, key) => {\n    const titleHits = compiled.filter(c => c.re.test(title));\n    const bodyHits = compiled.filter(c => c.re.test(body) && !titleHits.includes(c));\n    return {\n      title: titleHits.map(c => c[key]),\n      body:  bodyHits.map(c => c[key])\n    };\n  };\n\n  const trig = splitTitleBody(v._triggers, 'phrase');\n  const tool = splitTitleBody(v._tools,    'tool');\n  const pain = splitTitleBody(v._pains,    'phrase');\n\n  const titleHitCount = trig.title.length + tool.title.length + pain.title.length;\n  const bodyHitCount  = trig.body.length  + tool.body.length  + pain.body.length;\n  const totalHits = titleHitCount + bodyHitCount;\n  const triggerHitCount = trig.title.length + trig.body.length;\n  const hasTriggerOverride = broadAllowTriggerOverride && triggerHitCount > 0;\n  const broadPasses = !isBroadSubreddit\n    || hasTriggerOverride\n    || (totalHits >= broadMinHits && (!broadRequiresTitleHit || titleHitCount > 0));\n  if (requireDomainHit && totalHits === 0 && !relaxedDomain) continue;\n  if (requireDomainHit && totalHits > 0 && !broadPasses && !relaxedDomain) continue;\n\n  const noiseHits = matchPhrases(noiseMatchers, combined);\n  const buyerSignalHits = matchPhrases(buyerSignalMatchers, combined);\n  const noiseScore = noiseHits.length;\n  const buyerSignalScore = buyerSignalHits.length;\n  const subredditSpecificity = isBroadSubreddit ? 0 : 1;\n\n  const signalStrength = (titleHitCount * 3) + bodyHitCount;\n  const effectiveStrict = totalHits > 0 && broadPasses;\n\n  out.push({\n    json: {\n      post_id: post.id,\n      title: post.title || '',\n      body: post.body || '',\n      url: post.url,\n      author: post.username || post.author || 'unknown',\n      subreddit: post.communityName || '',\n      upVotes: post.upVotes || 0,\n      numberOfComments: post.numberOfComments || 0,\n      createdAt: post.createdAt || '',\n      flair: post.flair || '',\n      comments: post.comments || [],\n      vertical_id: verticalId,\n      vertical_name: v.name,\n      vertical_tier: v.tier,\n      vertical_context_card: v.context_card,\n      vertical_top_opportunities: v.top_opportunities,\n      vertical_pain_phrases: v.pain_phrases,\n      vertical_buyer_personas: v.buyer_personas,\n      vertical_existing_tools: v.existing_tools,\n      vertical_trigger_events: v.trigger_events,\n      pre_detected_triggers: [...trig.title, ...trig.body],\n      pre_detected_triggers_in_title: trig.title,\n      pre_detected_tools_mentioned: [...tool.title, ...tool.body],\n      pre_detected_pain_phrases: [...pain.title, ...pain.body],\n      pre_detected_noise_phrases: noiseHits,\n      pre_detected_buyer_signal_phrases: buyerSignalHits,\n      signal_strength: signalStrength,\n      title_hit_count: titleHitCount,\n      body_hit_count: bodyHitCount,\n      domain_hit_count: totalHits,\n      trigger_hit_count: triggerHitCount,\n      buyer_signal_score: buyerSignalScore,\n      noise_score: noiseScore,\n      subreddit_specificity: subredditSpecificity,\n      broad_subreddit: isBroadSubreddit,\n      broad_subreddit_pass: broadPasses,\n      candidate_quality_score: signalStrength + triggerHitCount + buyerSignalScore + subredditSpecificity - noiseScore,\n      body_length: (post.body || '').length,\n      domain_filter_mode: effectiveStrict ? 'strict' : domainFilterMode,\n      matched_query_phrases,\n      query_category\n    }\n  });\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "tag-filter-dedup-v2",
+      "name": "Tag + Domain Filter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3296,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  model: $('Configuration').first().json.claudeModel,\n  max_tokens: 2048,\n  messages: [\n    {\n      role: 'user',\n      content: 'You are analysing a UK Reddit post for a founder building B2B automation in regulated industries. Apply first-principles + AGoT reasoning, then return ONLY JSON.\\n\\n## TARGET VERTICAL: ' + $json.vertical_name + ' (' + $json.vertical_id + ')\\n' + $json.vertical_context_card + '\\n\\n## TOP OPPORTUNITIES (pre-validated demand)\\n' + JSON.stringify($json.vertical_top_opportunities, null, 2) + '\\n\\n## BUYER PERSONAS\\n' + ($json.vertical_buyer_personas || []).join(', ') + '\\n\\n## EXISTING TOOLS (if poster praises one, opportunity_confidence = none)\\n' + ($json.vertical_existing_tools || []).join(', ') + '\\n\\n## TRIGGER EVENTS\\n' + ($json.vertical_trigger_events || []).join(' | ') + '\\n\\n## PRE-DETECTED (regex)\\nTriggers: ' + JSON.stringify($json.pre_detected_triggers) + '\\nTools: ' + JSON.stringify($json.pre_detected_tools_mentioned) + '\\n\\n## THE POST\\nSubreddit: r/' + $json.subreddit + '\\nAuthor: u/' + $json.author + '\\nTitle: ' + $json.title + '\\nBody: ' + ($json.body || '[no body]') + '\\nEngagement: ' + $json.upVotes + ' upvotes, ' + $json.numberOfComments + ' comments\\n\\nTop comments:\\n' + ($json.comments && $json.comments.length > 0 ? $json.comments.map(c => '- u/' + (c.username || '?') + ': ' + c.body).join('\\n') : '[no comments]') + '\\n\\n---\\n\\n## REASONING CHAIN\\n\\nSTEP 1 (FP root pain): irreducible pain in one sentence, quantified if possible.\\nSTEP 2 (FP workaround): current method + cost in time/money/risk.\\nSTEP 3 (AGoT vertical match): does this map to context-card pain? Paraphrase or mark exploratory.\\nSTEP 4 (AGoT opportunity match): which Top Opportunity? Confidence high/medium/low/none. If existing-tool praise => none.\\nSTEP 5 (AGoT buyer fit): is poster a decision-maker matching personas?\\nSTEP 6 (AGoT trigger check): explicit trigger phrase quoted, or null.\\nSTEP 7 (Synthesis score): apply rubric below.\\n\\n## RUBRIC (discovery-first: we are hunting MANUAL WORKFLOWS worth automating, not buyers)\\n- manual_workflow_clarity (1-10) PRIMARY: how concretely does the post describe a SPECIFIC, REPEATING, MANUAL process a human does today (example: manually keying each invoice into Xero every week)? 8-10 = explicit recurring manual task with named tool or steps; 4-7 = manual work implied but vague; 1-3 = no concrete manual process (career, advice-seeking with no process, opinion, news).\\n- pain_severity (1-10): time or money cost of that manual work; higher if quantified.\\n- deliverability (1-10): solvable with current LLM+API stack.\\n- repeatability (1-10): recurs, or affects many in the vertical.\\n- willingness_to_pay, buyer_reachability, urgency (1-10): STILL score these for later calibration, but they DO NOT affect the score now.\\n- SCORE FORMULA (also computed downstream in code): overall = 0.8*manual_workflow_clarity + 0.2*avg(pain_severity, deliverability, repeatability). Do NOT apply WTP, buyer, urgency, or any boosts. Put that value in overall_score for reference.\\n\\n## PATH TAGS\\n- FREELANCE: hire-for-project-now\\n- PRODUCTIZED_SERVICE: templates/workflows recurring\\n- PRODUCT: wishes for tool/app/SaaS\\n- EVIDENCE_ONLY: validates pain but not buyer (employee/journalist)\\n- SKIP: ONLY when NO concrete manual or automatable process is described - pure off-topic, hiring or recruiting, job-search, career-advice, or general opinion/news. A post that describes a real recurring manual workflow is NOT SKIP even if it also asks for tips or recommendations. If the post is primarily about recruiting, hiring, job-search or career, set path_tag=SKIP. manual_workflow_clarity, not path_tag, drives the score.\\n\\nReturn ONLY this JSON:\\n{\\n  \"lead_data\": { \"post_url\": \"' + $json.url + '\", \"author\": \"' + $json.author + '\", \"subreddit\": \"' + $json.subreddit + '\", \"upVotes\": ' + $json.upVotes + ', \"numberOfComments\": ' + $json.numberOfComments + ', \"title\": ' + JSON.stringify($json.title) + ', \"vertical_id\": \"' + $json.vertical_id + '\", \"vertical_name\": ' + JSON.stringify($json.vertical_name) + ', \"vertical_tier\": ' + $json.vertical_tier + ', \"query_category\": ' + JSON.stringify($json.query_category) + ' },\\n  \"step1_root_pain\": \"\",\\n  \"step2_current_workaround\": \"\",\\n  \"step3_vertical_match\": \"\",\\n  \"step4_matched_opportunity\": null,\\n  \"step4_opportunity_confidence\": \"none\",\\n  \"step5_buyer_persona_match\": false,\\n  \"step5_buyer_reasoning\": \"\",\\n  \"step6_trigger_event_mentioned\": null,\\n  \"scores\": { \"manual_workflow_clarity\": 0, \"pain_severity\": 0, \"willingness_to_pay\": 0, \"deliverability\": 0, \"repeatability\": 0, \"buyer_reachability\": 0, \"urgency\": 0 },\\n  \"weighted_score\": 0,\\n  \"boosts_applied\": \"none\",\\n  \"overall_score\": 0,\\n  \"path_tag\": \"SKIP\",\\n  \"problem_summary\": \"\",\\n  \"product_idea\": \"\",\\n  \"outreach_hook\": \"\"\\n}'\n    }\n  ]\n}) }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 8000
+            }
+          },
+          "timeout": 90000
+        }
+      },
+      "id": "claude-analysis-v2",
+      "name": "Claude Analysis (FP/AGoT)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3968,
+        128
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "anthropic_api_key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse Claude's JSON response, validate, format for Sheets.\n// All originating post data is echoed back by Claude inside lead_data — no merge required.\n\nconst results = [];\n// Run mode (backtest|weekly) is run-invariant — read once from Build Search Matrix (ancestor, runs\n// once). Stamped on every lead row so v3 shows which run surfaced it. Guarded for the unit harness.\nlet runMode = '';\ntry { const _m = $('Build Search Matrix').first(); if (_m && _m.json) runMode = _m.json.mode || ''; } catch (e) {}\n// P4b: per-phrase calibration — join matched_query_phrases from Tag + Domain (ancestor) by post URL.\nconst tagByUrl = {};\nfor (const it of $('Tag + Domain Filter').all()) { tagByUrl[it.json.url] = it.json; }\n\nfor (const item of $input.all()) {\n  try {\n    const claudeContent = item.json.content;\n    if (!claudeContent || !claudeContent[0] || !claudeContent[0].text) continue;\n\n    const responseText = claudeContent[0].text;\n    const jsonMatch = responseText.match(/\\{[\\s\\S]*\\}/);\n    if (!jsonMatch) continue;\n\n    let analysis;\n    try {\n      analysis = JSON.parse(jsonMatch[0]);\n    } catch (parseErr) {\n      continue;\n    }\n\n    const lead = analysis.lead_data || {};\n    const scores = analysis.scores || {};\n\n    // Discovery-first score: clarity dominates (0.8); support dims pain/deliv/repeat share 0.2.\n    // WTP/reach/urgency still scored upstream but deliberately excluded here (calibrate later).\n    const clarity = Number(scores.manual_workflow_clarity) || 0;\n    const support = ((Number(scores.pain_severity) || 0) + (Number(scores.deliverability) || 0) + (Number(scores.repeatability) || 0)) / 3;\n    const overall = Math.round((0.8 * clarity + 0.2 * support) * 10) / 10;\n\n    const scoresFormatted = [\n      'Clarity ' + (scores.manual_workflow_clarity || 0),\n      'Pain ' + (scores.pain_severity || 0),\n      'WTP ' + (scores.willingness_to_pay || 0),\n      'Deliv ' + (scores.deliverability || 0),\n      'Repeat ' + (scores.repeatability || 0),\n      'Reach ' + (scores.buyer_reachability || 0),\n      'Urgency ' + (scores.urgency || 0),\n      '=> ' + overall\n    ].join(' | ');\n\n    // Buyer-fit gate: a poster who is NOT the target buyer persona (step5) can never be flagged\n    // HIGH_PRIORITY, regardless of discovery score. The post is still WRITTEN (as REVIEW) so\n    // discovery signal isn't lost — it just can't masquerade as a hot lead. Buyer does NOT touch\n    // the discovery score (overall); it only gates the ACTION tier. Geo (e.g. US-market) is already\n    // folded into the persona judgment upstream, so no separate geo check is needed.\n    const bpm = analysis.step5_buyer_persona_match;\n    const buyerMatch = bpm === true || bpm === 'true' || bpm === 'yes' || bpm === 'YES';\n\n    const reasoningChain = [\n      'PAIN: ' + (analysis.step1_root_pain || ''),\n      'WORKAROUND: ' + (analysis.step2_current_workaround || ''),\n      'MATCH: ' + (analysis.step3_vertical_match || ''),\n      'OPP: ' + (analysis.step4_matched_opportunity || 'none') + ' (' + (analysis.step4_opportunity_confidence || 'none') + ')',\n      'BUYER: ' + (buyerMatch ? 'YES' : 'no') + ' — ' + (analysis.step5_buyer_reasoning || ''),\n      'TRIGGER: ' + (analysis.step6_trigger_event_mentioned || 'none')\n    ].join('\\n');\n\n    const threshold = $('Configuration').first().json.scoreThreshold;\n    let tier;\n    if (overall >= 7 && buyerMatch) tier = 'HIGH_PRIORITY';\n    else if (overall >= threshold) tier = 'REVIEW';\n    else tier = 'REJECT';\n    results.push({\n      json: {\n        postTitle: lead.title || '',\n        queryCategory: lead.query_category || 'buyer_intent',\n        runMode: runMode,\n        matchedQueryPhrases: ((tagByUrl[lead.post_url] || {}).matched_query_phrases || []).join(', '),\n        postUrl: lead.post_url || '',\n        verticalName: lead.vertical_name || '',\n        verticalTier: lead.vertical_tier || '',\n        matchedOpportunity: analysis.step4_matched_opportunity || '',\n        opportunityConfidence: analysis.step4_opportunity_confidence || 'none',\n        pathTag: analysis.path_tag || '',\n        problemSummary: analysis.problem_summary || '',\n        productIdea: analysis.product_idea || '',\n        outreachHook: analysis.outreach_hook || '',\n        triggerEventMentioned: analysis.step6_trigger_event_mentioned || '',\n        scoresFormatted: scoresFormatted,\n        reasoningChain: reasoningChain,\n        weightedScore: analysis.weighted_score || 0,\n        boostsApplied: analysis.boosts_applied || 'none',\n        overallScore: overall,\n        author: lead.author || '',\n        subreddit: lead.subreddit || '',\n        upVotes: lead.upVotes || 0,\n        numberOfComments: lead.numberOfComments || 0,\n        reviewTier: tier,\n        processedAt: new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })\n      }\n    });\n  } catch (e) {\n    // skip malformed silently\n  }\n}\n\nreturn results;"
+      },
+      "id": "parse-format-v2",
+      "name": "Parse + Format",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4192,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "score-or-opp-gate",
+              "leftValue": "={{ $json.overallScore }}",
+              "rightValue": "={{ $('Configuration').first().json.scoreThreshold }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "score-gate-v2",
+      "name": "Score or Opportunity Gate",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4416,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Configuration').first().json.sheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "v3",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Post Title": "==HYPERLINK(\"{{ $json.postUrl }}\", \"{{ $json.postTitle }}\")",
+            "Vertical": "={{ $json.verticalName }}",
+            "Tier": "={{ $json.verticalTier }}",
+            "Matched Opportunity": "={{ $json.matchedOpportunity }}",
+            "Opp Confidence": "={{ $json.opportunityConfidence }}",
+            "Path Tag": "={{ $json.pathTag }}",
+            "Problem Summary": "={{ $json.problemSummary }}",
+            "Product Idea": "={{ $json.productIdea }}",
+            "Outreach Hook": "={{ $json.outreachHook }}",
+            "Trigger Event": "={{ $json.triggerEventMentioned }}",
+            "Scores": "={{ $json.scoresFormatted }}",
+            "Reasoning Chain": "={{ $json.reasoningChain }}",
+            "Boosts": "={{ $json.boostsApplied }}",
+            "Overall Score": "={{ $json.overallScore }}",
+            "Author": "={{ $json.author }}",
+            "Subreddit": "={{ $json.subreddit }}",
+            "Upvotes": "={{ $json.upVotes }}",
+            "Comments": "={{ $json.numberOfComments }}",
+            "URL": "={{ $json.postUrl }}",
+            "Processed At": "={{ $json.processedAt }}",
+            "Query Category": "={{ $json.queryCategory }}",
+            "Review Tier": "={{ $json.reviewTier }}",
+            "Matched Phrases": "={{ $json.matchedQueryPhrases }}",
+            "Run Mode": "={{ $json.runMode }}"
+          },
+          "matchingColumns": [
+            "URL"
+          ],
+          "schema": [
+            {
+              "id": "Post Title",
+              "displayName": "Post Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Vertical",
+              "displayName": "Vertical",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tier",
+              "displayName": "Tier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Matched Opportunity",
+              "displayName": "Matched Opportunity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Opp Confidence",
+              "displayName": "Opp Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "Review Tier",
+              "id": "Review Tier",
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "Matched Phrases",
+              "id": "Matched Phrases",
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "Path Tag",
+              "displayName": "Path Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Problem Summary",
+              "displayName": "Problem Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "Query Category",
+              "id": "Query Category",
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "Product Idea",
+              "displayName": "Product Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Outreach Hook",
+              "displayName": "Outreach Hook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Trigger Event",
+              "displayName": "Trigger Event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scores",
+              "displayName": "Scores",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Reasoning Chain",
+              "displayName": "Reasoning Chain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Boosts",
+              "displayName": "Boosts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Overall Score",
+              "displayName": "Overall Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Subreddit",
+              "displayName": "Subreddit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Upvotes",
+              "displayName": "Upvotes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Comments",
+              "displayName": "Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Processed At",
+              "displayName": "Processed At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Run Mode",
+              "displayName": "Run Mode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4640,
+        32
+      ],
+      "id": "append-or-update-row-v2",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "skip-reason",
+              "name": "status",
+              "value": "=Skipped — score {{ $json.overallScore }} below threshold {{ $('Configuration').first().json.scoreThreshold }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "skip-low-score-v2",
+      "name": "Skip Low Score",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4640,
+        224
+      ]
+    },
+    {
+      "id": "split-trim-posts-v2",
+      "name": "Split + Trim Posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2624,
+        128
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Unpack Apify dataset array → per-post n8n items; trim oversize body & comments.\nconst config = $('Configuration').first().json;\nconst maxBody = config.maxBodyLength || 1500;\nconst raw = $input.all();\nconst posts = raw.flatMap(r => Array.isArray(r.json) ? r.json : [r.json]);\nconst out = [];\nfor (const post of posts) {\n  if (!post || typeof post !== 'object') continue;\n  if (post.body && post.body.length > maxBody) post.body = post.body.slice(0, maxBody);\n  if (Array.isArray(post.comments)) {\n    post.comments = post.comments.slice(0, 5).map(c => ({\n      body: ((c && c.body) || '').slice(0, 300),\n      username: (c && c.username) || ''\n    }));\n  }\n  out.push({ json: post });\n}\nreturn out;"
+      }
+    },
+    {
+      "id": "engagement-dedup-filter-v2",
+      "name": "Engagement + Dedup Filter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2848,
+        128
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Engagement gate + body-length sanity + within-run URL dedup.\n// Apify may omit engagement fields; only gate on them when present.\nconst config = $('Configuration').first().json;\nconst minUp = config.minUpvotes || 0;\nconst minC = config.minComments || 0;\nconst minBody = config.minBodyLength || 0;\nconst engagementGateEnabled = config.engagementGateEnabled === true;\nconst allowRelaxedEngagement = config.allowRelaxedEngagement === true;\nconst mwMinUp = config.mwMinUpvotes ?? minUp;\nconst mwMinC = config.mwMinComments ?? minC;\nconst ltFirst = $('Load Vertical Taxonomy').first();\nconst mwListLower = ((ltFirst && ltFirst.json.manual_workflow_phrases) || []).map((s) => s.toLowerCase());\n\nconst isNumeric = (v) => typeof v === 'number' && Number.isFinite(v);\n\nconst seen = new Set();\nconst out = [];\nfor (const item of $input.all()) {\n  const p = item.json;\n  if (!p || p.dataType !== 'post') continue;\n  if (p.isVideo === true || p.isAd === true) continue;\n  const lmLower = ((p.title || '') + '\\n' + (p.body || '')).toLowerCase();\n  const looksMw = allowRelaxedEngagement && mwListLower.some((ph) => lmLower.includes(ph));\n  const up = looksMw ? mwMinUp : minUp;\n  const cm = looksMw ? mwMinC : minC;\n  if (engagementGateEnabled && isNumeric(p.upVotes) && p.upVotes < up) continue;\n  if (engagementGateEnabled && isNumeric(p.numberOfComments) && p.numberOfComments < cm) continue;\n  if (!p.url || seen.has(p.url)) continue;\n  if (minBody > 0 && (p.body || '').length < minBody) continue;\n  seen.add(p.url);\n  out.push(item);\n}\nreturn out;"
+      }
+    },
+    {
+      "id": "loop-batches-v2",
+      "name": "Loop Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3072,
+        128
+      ],
+      "parameters": {
+        "batchSize": "={{ $('Configuration').first().json.batchSize || 50 }}",
+        "options": {}
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Cost guard: cap Claude spend at the mode-resolved budget ACROSS ALL CHUNKS.\n// TAG-DON'T-DROP: returns ALL candidates so the loop-back is never starved when the budget\n// is exhausted (the silent chunk-skip bug). Each item gets _within_budget (1/0); a downstream\n// \"Within Budget?\" IF routes 1 -> Claude, 0 -> back into the loop (no Claude, no append).\nconst config = $('Configuration').first().json;\nconst bsm = $('Build Search Matrix').first();\nconst resolvedCap = (bsm && bsm.json && bsm.json.resolvedMaxClaudeCalls != null)\n  ? Number(bsm.json.resolvedMaxClaudeCalls)\n  : Number(config.maxClaudeCalls || 0);\nconst maxClaudeCalls = resolvedCap;\n\nconst allowRelaxedClaude = config.allowRelaxedClaude === true;\nconst relaxedClaudeSample = Math.max(0, Number(config.relaxedClaudeSample || 0));\nconst items = $input.all();\nconst tag = (arr, n) => arr.map((it, idx) => ({ json: { ...it.json, _within_budget: idx < n ? 1 : 0 } }));\nif (maxClaudeCalls <= 0) return tag(items, 0);\n\n// Candidate ordering: strict first, then a relaxed sample, then the rest (rest still flows back\n// to the loop as over-budget so the loop never starves; it is never sent to Claude).\nlet ordered;\nif (allowRelaxedClaude) {\n  ordered = items;\n} else {\n  const strict = items.filter((item) => item.json && item.json.domain_filter_mode === 'strict');\n  const relaxedAll = items.filter((item) => !(item.json && item.json.domain_filter_mode === 'strict'));\n  ordered = [...strict, ...relaxedAll.slice(0, relaxedClaudeSample), ...relaxedAll.slice(relaxedClaudeSample)];\n}\n\n// Cross-chunk running total via static data (reset per execution id). Live-only; the unit\n// harness lacks $getWorkflowStaticData, so fall back to a single-chunk budget.\nlet within;\nif (typeof $getWorkflowStaticData === 'function') {\n  const store = $getWorkflowStaticData('global');\n  const execId = (typeof $execution !== 'undefined' && $execution && $execution.id) ? String($execution.id) : 'noexec';\n  if (store.claudeRunExecId !== execId) { store.claudeRunExecId = execId; store.claudeCallsSpent = 0; }\n  const spent = Number(store.claudeCallsSpent || 0);\n  within = Math.min(Math.max(0, maxClaudeCalls - spent), ordered.length);\n  store.claudeCallsSpent = spent + within;\n} else {\n  within = Math.min(maxClaudeCalls, ordered.length);\n}\nreturn tag(ordered, within);"
+      },
+      "id": "limit-claude-calls-v2",
+      "name": "Limit Claude Calls",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3744,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Build one debug summary row after the OUTER Chunk Loop finishes.\n// Under chunking, $(node).all() resolves to the LAST chunk only — so when a chunked run has\n// accumulated cross-chunk totals in static data (Build Progress Row), prefer those; otherwise\n// fall back to the single-run live counts (also the unit-test path, where static data is absent).\nconst config = $('Configuration').first().json;\nif (config.debugMode !== true) return [];\n\nconst safeAll = (name) => {\n  try { return $(name).all(); } catch (e) { return []; }\n};\nconst countBy = (items, key) => {\n  const counts = {};\n  for (const item of items) {\n    const value = item.json?.[key] || '(missing)';\n    counts[value] = (counts[value] || 0) + 1;\n  }\n  return counts;\n};\nconst fmtCounts = (counts) => Object.entries(counts)\n  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))\n  .map(([key, value]) => key + '=' + value)\n  .join(', ');\n\nconst split = safeAll('Split + Trim Posts');\nconst engagement = safeAll('Engagement + Dedup Filter');\nconst domain = safeAll('Tag + Domain Filter');\nconst limited = safeAll('Limit Claude Calls');\nconst parsed = safeAll('Parse + Format');\nconst appended = safeAll('Append or update row in sheet');\nconst skipped = safeAll('Skip Low Score');\n\n// \"wait for both branches\" gate (unchanged): don't emit until this chunk's parsed items are finalized.\nconst finalized = appended.length + skipped.length;\nif (parsed.length > 0 && finalized < parsed.length) return [];\n\n// cross-chunk totals: prefer the static-data accumulator when present (live chunked run),\n// else the single-run live counts (unit tests / unchunked).\nlet totals = {\n  scraped: split.length,\n  engagementPass: engagement.length,\n  domainPass: domain.length,\n  claudeAnalyzed: limited.length,\n  appended: appended.length,\n  skipped: skipped.length\n};\nif (typeof $getWorkflowStaticData === 'function') {\n  try {\n    const acc = $getWorkflowStaticData('global').acc;\n    if (acc) {\n      totals = {\n        scraped: Number(acc.scraped || 0),\n        engagementPass: Number(acc.engagementPass || 0),\n        domainPass: Number(acc.domainPass || 0),\n        claudeAnalyzed: Number(acc.claudeAnalyzed || 0),\n        appended: Number(acc.leads || 0),\n        skipped: Number(acc.skipped || 0)\n      };\n    }\n  } catch (e) {}\n}\n\nconst filteredPreClaude = Math.max(0, totals.engagementPass - totals.domainPass);\nconst limitedOut = Math.max(0, totals.domainPass - totals.claudeAnalyzed);\nconst lowScore = totals.skipped;\n\nlet executionId = '';\ntry {\n  if (typeof $execution !== 'undefined' && $execution.id) executionId = String($execution.id);\n} catch (e) {}\n\nreturn [{ json: {\n  runLabel: config.runLabel || 'debug',\n  executionId,\n  startedAt: new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }),\n  scraped: totals.scraped,\n  engagementPass: totals.engagementPass,\n  domainPass: totals.domainPass,\n  claudeAnalyzed: totals.claudeAnalyzed,\n  scorePass: totals.appended,\n  appended: totals.appended,\n  topVerticals: fmtCounts(countBy(domain, 'vertical_name')),\n  dropSummary: 'filtered_pre_claude=' + filteredPreClaude + ', claude_cap=' + limitedOut + ', low_score=' + lowScore,\n  notes: 'topK=' + config.topKPhrasesPerVertical + ', maxPosts=' + config.maxPostsPerSearch + ', maxClaude=' + config.maxClaudeCalls + ', domainMode=' + (config.domainFilterMode || 'strict')\n}}];\n"
+      },
+      "id": "build-debug-summary-v2",
+      "name": "Build Debug Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Configuration').first().json.sheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "debug_runs",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Run Label": "={{ $json.runLabel }}",
+            "Execution ID": "={{ $json.executionId }}",
+            "Started At": "={{ $json.startedAt }}",
+            "Scraped": "={{ $json.scraped }}",
+            "Engagement Pass": "={{ $json.engagementPass }}",
+            "Domain Pass": "={{ $json.domainPass }}",
+            "Claude Analyzed": "={{ $json.claudeAnalyzed }}",
+            "Score Pass": "={{ $json.scorePass }}",
+            "Appended": "={{ $json.appended }}",
+            "Top Verticals": "={{ $json.topVerticals }}",
+            "Drop Summary": "={{ $json.dropSummary }}",
+            "Notes": "={{ $json.notes }}"
+          },
+          "schema": [
+            {
+              "id": "Run Label",
+              "displayName": "Run Label",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Execution ID",
+              "displayName": "Execution ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Started At",
+              "displayName": "Started At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scraped",
+              "displayName": "Scraped",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Engagement Pass",
+              "displayName": "Engagement Pass",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Domain Pass",
+              "displayName": "Domain Pass",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Claude Analyzed",
+              "displayName": "Claude Analyzed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score Pass",
+              "displayName": "Score Pass",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Appended",
+              "displayName": "Appended",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Top Verticals",
+              "displayName": "Top Verticals",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Drop Summary",
+              "displayName": "Drop Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "append-debug-summary-v2",
+      "name": "Append Debug Summary",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3744,
+        416
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Rank candidates before Claude cap.\n// Order: strict hit, trigger hit, buyer signal, domain depth, signal strength,\n// ENGAGEMENT (log-damped upvotes + half-weight comments), subreddit specificity,\n// Tier 1, low noise, then body length.\n// Engagement sits AFTER signal_strength so strictHit stays dominant (strict always\n// beats relaxed) and signal still outranks a viral low-signal post; engagement only\n// breaks ties among otherwise-equal candidates (curate the best posts before Claude).\nconst config = $('Configuration').first().json;\nconst engagementGateEnabled = config.engagementGateEnabled === true;\n\nconst engagementScore = (json) => {\n  if (!engagementGateEnabled) return 0;\n  const up = Math.max(0, Number(json.upVotes || 0));\n  const comments = Math.max(0, Number(json.numberOfComments || 0));\n  const raw = Math.log2(up + 1) + 0.5 * Math.log2(comments + 1);\n  return Math.round(raw * 10000) / 10000; // damp float drift in the joined key string\n};\n\nconst scoreFor = (item) => {\n  const json = item.json || {};\n  const strictHit = json.domain_filter_mode === 'strict' ? 1 : 0;\n  const tierOne = Number(json.vertical_tier) === 1 ? 1 : 0;\n  const bodyLength = Number(json.body_length ?? (json.body || '').length);\n  return [\n    strictHit,\n    Number(json.trigger_hit_count || 0),\n    Number(json.buyer_signal_score || 0),\n    Number(json.domain_hit_count || 0),\n    Number(json.signal_strength || 0),\n    engagementScore(json),\n    Number(json.subreddit_specificity || 0),\n    tierOne,\n    -Number(json.noise_score || 0),\n    bodyLength\n  ];\n};\n\nconst compareScores = (left, right) => {\n  for (let index = 0; index < left.length; index += 1) {\n    if (left[index] !== right[index]) return right[index] - left[index];\n  }\n  return 0;\n};\n\nreturn $input.all()\n  .map((item, originalIndex) => ({ item, originalIndex, score: scoreFor(item) }))\n  .sort((left, right) => compareScores(left.score, right.score) || left.originalIndex - right.originalIndex)\n  .map((entry, index) => ({\n    json: {\n      ...entry.item.json,\n      pre_claude_rank: index + 1,\n      pre_claude_rank_score: entry.score.join('|')\n    }\n  }));\n"
+      },
+      "id": "rank-claude-candidates-v2",
+      "name": "Rank Claude Candidates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        128
+      ]
+    },
+    {
+      "id": "d626ca21-df01-45e8-b15b-053e26c2d531",
+      "name": "Chunk Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        752,
+        220
+      ],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "95e41cee-500a-4202-ac31-40a2b835afe5",
+      "name": "Build Progress Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3296,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Per-chunk progress heartbeat: writes one Status-tab row after each chunk's inner loop drains.\n// Counts come from this chunk's live node outputs; cross-chunk running totals + elapsed live in\n// $getWorkflowStaticData (reset per execution via $execution.id). Build Debug Summary reads the\n// same accumulator at outer-loop done so the final summary doesn't undercount under chunking.\n// NOTE: leads/claudeAnalyzed/domainPass/skipped sit on the sibling loop branch (not ancestors of\n// this 'done'-branch node), so their safeLen reads return 0 here — a known under-count, cosmetic\n// only (the real leads land in the sheet). scraped + engagementPass ARE ancestors and resolve.\nconst config = $('Configuration').first().json;\n// The inner Loop Batches 'done' fires ONCE MORE than there are chunks — a final empty pass after\n// the outer Chunk Loop is exhausted. On that pass Chunk Loop has no live item, so $('Chunk Loop')\n// .first() is undefined and .json threw (the 'reading json' crash). Skip the phantom heartbeat\n// (also prevents a stray 'chunk N+1' row being written).\nconst cl = $('Chunk Loop').first();\nif (!cl || !cl.json || cl.json.chunkIndex == null) return [];\nconst chunk = cl.json;\nconst chunkIndex = Number(chunk.chunkIndex || 0);\nconst chunkTotal = Number(chunk.chunkTotal || 0);\n\nconst safeLen = (name) => { try { return $(name).all().length; } catch (e) { return 0; } };\nconst scraped = safeLen('Split + Trim Posts');\nconst leads = safeLen('Append or update row in sheet');\nconst claudeAnalyzed = safeLen('Claude Analysis (FP/AGoT)');\nconst domainPass = safeLen('Tag + Domain Filter');\nconst engagementPass = safeLen('Engagement + Dedup Filter');\nconst skipped = safeLen('Skip Low Score');\n\nconst store = $getWorkflowStaticData('global');\nconst execId = (typeof $execution !== 'undefined' && $execution && $execution.id) ? String($execution.id) : 'noexec';\nif (store.progressExecId !== execId) {\n  store.progressExecId = execId;\n  store.runStartMs = Date.now();\n  store.acc = { scraped: 0, leads: 0, claudeAnalyzed: 0, domainPass: 0, engagementPass: 0, skipped: 0 };\n}\nconst acc = store.acc || (store.acc = { scraped: 0, leads: 0, claudeAnalyzed: 0, domainPass: 0, engagementPass: 0, skipped: 0 });\nacc.scraped += scraped;\nacc.leads += leads;\nacc.claudeAnalyzed += claudeAnalyzed;\nacc.domainPass += domainPass;\nacc.engagementPass += engagementPass;\nacc.skipped += skipped;\n\nconst elapsedSec = Math.round((Date.now() - Number(store.runStartMs || Date.now())) / 1000);\n\nreturn [{ json: {\n  runLabel: config.runLabel || 'run',\n  progress: 'chunk ' + chunkIndex + '/' + chunkTotal,\n  scraped: scraped,\n  leads: leads,\n  runningTotalLeads: acc.leads,\n  elapsedSec: elapsedSec,\n  mode: chunk.mode || '',\n  ts: new Date().toISOString()\n}}];"
+      }
+    },
+    {
+      "id": "6780bd62-5c46-489b-b0af-df1c47b9ea1b",
+      "name": "Write Progress Row",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3520,
+        220
+      ],
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Configuration').first().json.sheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Status",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "__CREDENTIAL_PLACEHOLDER__",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "id": "7cf872ce-9b57-4279-ab15-7b1ff50a04ce",
+      "name": "Within Budget?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3856,
+        128
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "a8554abe-7b9b-41f0-9a4b-a0b8582438e3",
+              "leftValue": "={{ $json._within_budget }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuration": {
+      "main": [
+        [
+          {
+            "node": "Load Vertical Taxonomy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Vertical Taxonomy": {
+      "main": [
+        [
+          {
+            "node": "Build Search Matrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Search Matrix": {
+      "main": [
+        [
+          {
+            "node": "Chunk Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start Apify Scraper": {
+      "main": [
+        [
+          {
+            "node": "Wait 15s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 15s": {
+      "main": [
+        [
+          {
+            "node": "Check Run Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Run Status": {
+      "main": [
+        [
+          {
+            "node": "Get Latest Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Latest Status": {
+      "main": [
+        [
+          {
+            "node": "Still Running?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Still Running?": {
+      "main": [
+        [
+          {
+            "node": "Wait 15s",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Scraper Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Scraper Results": {
+      "main": [
+        [
+          {
+            "node": "Load Already-Processed URLs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split + Trim Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Already-Processed URLs": {
+      "main": [
+        []
+      ]
+    },
+    "Claude Analysis (FP/AGoT)": {
+      "main": [
+        [
+          {
+            "node": "Parse + Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse + Format": {
+      "main": [
+        [
+          {
+            "node": "Score or Opportunity Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score or Opportunity Gate": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip Low Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split + Trim Posts": {
+      "main": [
+        [
+          {
+            "node": "Engagement + Dedup Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Engagement + Dedup Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Batches": {
+      "main": [
+        [
+          {
+            "node": "Build Progress Row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tag + Domain Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag + Domain Filter": {
+      "main": [
+        [
+          {
+            "node": "Rank Claude Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip Low Score": {
+      "main": [
+        [
+          {
+            "node": "Loop Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit Claude Calls": {
+      "main": [
+        [
+          {
+            "node": "Within Budget?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Debug Summary": {
+      "main": [
+        [
+          {
+            "node": "Append Debug Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Debug Summary": {
+      "main": [
+        []
+      ]
+    },
+    "Rank Claude Candidates": {
+      "main": [
+        [
+          {
+            "node": "Limit Claude Calls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chunk Loop": {
+      "main": [
+        [
+          {
+            "node": "Build Debug Summary",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Start Apify Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Progress Row": {
+      "main": [
+        [
+          {
+            "node": "Write Progress Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Progress Row": {
+      "main": [
+        [
+          {
+            "node": "Chunk Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Within Budget?": {
+      "main": [
+        [
+          {
+            "node": "Claude Analysis (FP/AGoT)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
